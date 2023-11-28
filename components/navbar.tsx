@@ -16,31 +16,35 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react';
+import { useWindowSize } from "@uidotdev/usehooks";
 
 import { siteConfig } from '@/config/site';
 import NextLink from 'next/link';
 
 import { ThemeSwitch } from '@/components/theme-switch';
-import {
-  GithubIcon,
-} from '@/components/icons';
+import { GithubIcon } from '@/components/icons';
 
 import { Logo } from '@/components/icons';
-import CustomButton from './custom-button';
-import { useEffect } from 'react';
+import { CustomButton } from './custom-button';
+import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
+import cn from '@/utils/cn';
 
 export const Navbar = () => {
   const { data: session } = useSession();
+  const size = useWindowSize();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <NextUINavbar
       maxWidth='xl'
       classNames={{
-        wrapper: 'h-12 md:h-20',
+        wrapper: 'h-14 md:h-20 pl-10',
       }}
+      onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent className='basis-1/5 sm:basis-full' justify='start'>
+        <NavbarMenuToggle className='lg:hidden' />
         <NavbarBrand as='li' className='max-w-fit gap-3'>
           <NextLink className='flex items-center justify-start gap-1' href='/'>
             <Logo />
@@ -73,11 +77,8 @@ export const Navbar = () => {
         justify='end'
       >
         <ThemeSwitch />
-        {session ?
-          <Dropdown
-            placement='bottom-end'
-            radius='sm'
-          >
+        {session ? (
+          <Dropdown placement='bottom-end' radius='sm'>
             <DropdownTrigger>
               <Avatar
                 isBordered
@@ -98,7 +99,7 @@ export const Navbar = () => {
               <DropdownItem onPress={() => signOut()}>Sign out</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          :
+        ) : (
           <>
             <NavbarItem className='hidden md:flex'>
               <CustomButton
@@ -115,17 +116,13 @@ export const Navbar = () => {
               </CustomButton>
             </NavbarItem>
           </>
-        }
-
+        )}
       </NavbarContent>
 
       <NavbarContent className='basis-1 pl-4 sm:hidden' justify='end'>
         <ThemeSwitch />
-        {session ?
-          <Dropdown
-            placement='bottom-end'
-            radius='sm'
-          >
+        {session ? (
+          <Dropdown placement='bottom-end' radius='sm'>
             <DropdownTrigger>
               <Avatar
                 size='sm'
@@ -147,41 +144,43 @@ export const Navbar = () => {
               <DropdownItem onPress={() => signOut()}>Sign out</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          :
+        ) : (
           <NavbarItem className='flex'>
-            <CustomButton
-              color='brand'
-              as={Link} href='/auth/signin'
-              size='sm'
-            >
+            <CustomButton color='brand' as={Link} href='/auth/signin' size='sm'>
               Get Started
             </CustomButton>
           </NavbarItem>
-        }
-        <NavbarMenuToggle />
+        )}
       </NavbarContent>
 
-      <NavbarMenu className='top-12'>
-        <div className='mx-4 mt-2 flex flex-col gap-2'>
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? 'primary'
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? 'danger'
-                      : 'foreground'
-                }
-                href='#'
-                size='lg'
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
-      </NavbarMenu>
+      <div className={cn(
+        'absolute w-screen bg-white list-none left-0 top-[3.5rem] md:top-[5rem] opacity-95 transition-height',
+        `${isMenuOpen ? `h-[100dvh]` : 'h-0'}`,
+      )}>
+
+      </div>
+      <div className={cn(
+        'absolute w-screen mx-4 mt-2 flex flex-col gap-2 top-[4rem] md:top-[5.5rem]',
+        `${isMenuOpen ? `visible` : 'invisible'}`,
+      )}>
+        {siteConfig.navMenuItems.map((item, index) => (
+          <Link
+            key={`${item}-${index}`}
+            color={
+              index === 2
+                ? 'primary'
+                : index === siteConfig.navMenuItems.length - 1
+                  ? 'danger'
+                  : 'foreground'
+            }
+            href='#'
+            size='lg'
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
     </NextUINavbar>
   );
 };
+

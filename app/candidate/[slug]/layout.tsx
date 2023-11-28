@@ -1,7 +1,7 @@
 import React from 'react';
-import getURL from '@/utils/getURL';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
+import getURL from '@/utils/get-url';
 
 type Props = {
   children: React.ReactNode;
@@ -21,12 +21,11 @@ async function CandidateLayout({ children }: Props) {
   console.log(data);
   const session = await getServerSession();
 
-  if (!session) {
-    redirect('/auth/signin');
-  }
+  // if (!session) {
+  //   redirect('/auth/signin');
+  // }
 
-
-  return <div className='container'>{children}</div>;
+  return <div className='w-full'>{children}</div>;
 }
 
 export default CandidateLayout;

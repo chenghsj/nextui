@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        height: 'height',
+      },
       colors: {
         brand: '#2900FF',
         gray_l1: '#DDDBE7',
@@ -29,5 +32,6 @@ module.exports = {
     nextui({
       themes: {},
     }),
+    require('tailwindcss-safe-area'),
   ],
 };

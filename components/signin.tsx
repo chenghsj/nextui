@@ -2,15 +2,21 @@
 
 import React, { useEffect } from 'react';
 import { redirect } from 'next/navigation';
-import { Card, CardBody, CardHeader, Divider, Input, Button } from '@nextui-org/react';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Input,
+  Button,
+} from '@nextui-org/react';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import * as v from 'valibot';
-import CustomButton from '../custom-button';
-import { Google } from '../icons';
-import DividerWithText from '../divider-with-text';
-import getURL from '@/utils/getURL';
+import { CustomButton } from './custom-button';
+import { Google } from './icons';
+import DividerWithText from './divider-with-text';
 
 interface IFormInput {
   email: string;
@@ -18,23 +24,25 @@ interface IFormInput {
 
 type Props = {};
 
-
 const LoginFormSchema = v.object({
-  email: v.optional(v.string([
-    v.email('Please follow the email format.')
-  ]))
+  email: v.optional(v.string([v.email('Please follow the email format.')])),
 });
 
-export default function Signin({ }: Props) {
+export function Signin({ }: Props) {
   const { data: session } = useSession();
-  const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>({
     mode: 'onChange',
     defaultValues: {
-      email: ''
+      email: '',
     },
-    resolver: valibotResolver(LoginFormSchema)
+    resolver: valibotResolver(LoginFormSchema),
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) => alert(JSON.stringify(data, null, 2));
+  const onSubmit: SubmitHandler<IFormInput> = (data) =>
+    alert(JSON.stringify(data, null, 2));
 
   useEffect(() => {
     if (session) {
@@ -43,21 +51,14 @@ export default function Signin({ }: Props) {
   }, [session]);
 
   return (
-    <Card
-      className='p-8 w-80'
-      shadow='sm'
-    >
-      <CardHeader
-        className='p-0 font-bold text-lg'
-      >
-        Log in
-      </CardHeader>
+    <Card className='w-80 p-8' shadow='sm'>
+      <CardHeader className='p-0 text-lg font-bold'>Log in</CardHeader>
       <Button
         className='mt-4'
         variant='bordered'
         radius='sm'
         startContent={
-          <div className='bg-gray_b p-1 rounded-full'>
+          <div className='rounded-full bg-gray_b p-1'>
             <Google width={12} fill='white' />
           </div>
         }
@@ -67,7 +68,7 @@ export default function Signin({ }: Props) {
       </Button>
       <DividerWithText
         classNames={{
-          divider: 'border-none'
+          divider: 'border-none',
         }}
       >
         OR

@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from 'react';
 
 type IClassNames = {
   base: string;
-  divider: string,
+  divider: string;
   content: string;
 };
 
@@ -19,33 +19,37 @@ const DividerWithText: FC<Props> = ({
   classNames,
   ...rest
 }) => {
-
   return (
     <div
       className={cn(
-        "relative flex py-5 px-1 items-center",
+        'relative flex items-center px-1 py-5',
         className,
         classNames?.base
       )}
       {...rest}
     >
-      <div className={cn(
-        'flex-grow border-t border-slate-400',
-        classNames?.divider
-      )} />
-      <span className={cn(
-        'flex-shrink mx-4 text-gray-400 text-sm',
-        classNames?.content
-      )}>
+      <div
+        className={cn(
+          'flex-grow border-t border-slate-400',
+          classNames?.divider
+        )}
+      />
+      <span
+        className={cn(
+          'mx-4 flex-shrink text-sm text-gray-400',
+          classNames?.content
+        )}
+      >
         {children}
       </span>
-      <div className={cn(
-        'flex-grow border-t border-slate-400',
-        classNames?.divider
-      )} />
+      <div
+        className={cn(
+          'flex-grow border-t border-slate-400',
+          classNames?.divider
+        )}
+      />
     </div>
   );
-
 };
 
 export default DividerWithText;

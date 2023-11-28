@@ -1,5 +1,5 @@
-import getURL from '@/utils/getURL';
-import Home from '@/components/Home/Home';
+import { Home } from '@/components/home';
+import getURL from '@/utils/get-url';
 
 async function fetchData() {
   const res = await fetch(getURL('/api/db'), {

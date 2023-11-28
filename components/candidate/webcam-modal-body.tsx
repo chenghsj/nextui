@@ -28,8 +28,8 @@ import Webcam from 'react-webcam';
 import ReactPlayer from 'react-player';
 
 import { IRecordedVideo } from '@/types/candidate-modal/webcam-modal';
-import { PressEvent } from '@/types';
 import { NoPhotography, PhotoCamera } from '@/components/icons';
+import { PressEvent } from '@react-types/shared';
 
 type Props = {
   children?: ReactNode;
@@ -89,7 +89,7 @@ const recordedVideos: IRecordedVideo[] = [
   },
 ];
 
-function WebcamModalBody({}: Props) {
+export function WebcamModalBody({ }: Props) {
   const [isWebcamEnable, setIsWebcamEnable] = useState<boolean>(false);
 
   const [deviceId, setDeviceId] = useState<Iterable<Key>>(new Set([]));
@@ -323,7 +323,7 @@ function WebcamModalBody({}: Props) {
                   ) : (
                     <>
                       {webcamRecordStatus ===
-                      WebcamRecordStatusEnum.Recording ? (
+                        WebcamRecordStatusEnum.Recording ? (
                         <ButtonContent.Recording />
                       ) : (
                         <ButtonContent.Start />
@@ -339,5 +339,3 @@ function WebcamModalBody({}: Props) {
     </ModalBody>
   );
 }
-
-export default WebcamModalBody;

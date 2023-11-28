@@ -1,16 +1,13 @@
-import React, { EventHandler, useEffect, useRef, useState } from 'react';
-import { Card, CardHeader, CardBody, ModalBody } from '@nextui-org/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Card, CardBody, ModalBody } from '@nextui-org/react';
 import { Input, Textarea } from '@nextui-org/input';
 import { Upload } from '@/components/icons';
 import { Button } from '@nextui-org/button';
-import { PressEvent } from '@/types';
 import ReactPlayer from 'react-player';
 
 type Props = {};
 
-const skillTags = [''];
-
-function UploadModalBody({}: Props) {
+export function UploadModalBody({ }: Props) {
   const [video, setVideo] = useState<File>();
   const [videoURL, setVideoURL] = useState<string>('');
 
@@ -113,5 +110,3 @@ function UploadModalBody({}: Props) {
     </ModalBody>
   );
 }
-
-export default UploadModalBody;

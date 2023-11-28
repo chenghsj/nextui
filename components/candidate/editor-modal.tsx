@@ -12,8 +12,8 @@ import {
   Tab,
 } from '@nextui-org/react';
 
-import WebcamModalBody from './WebcamModalBody';
-import UploadModalBody from './UploadModalBody';
+import { WebcamModalBody } from './webcam-modal-body';
+import { UploadModalBody } from './upload-modal-body';
 
 type Props = {
   children?: ReactNode;
@@ -41,7 +41,7 @@ const tabs: TabProps[] = [
   },
 ];
 
-function EditorModal({ isOpen, onOpenChange }: Props) {
+export function EditorModal({ isOpen, onOpenChange }: Props) {
   const [modalBodyType, setModalBodyType] = useState<ModalBodyTypeEnum>(
     ModalBodyTypeEnum.Upload
   );
@@ -79,7 +79,7 @@ function EditorModal({ isOpen, onOpenChange }: Props) {
       onClose={handleModalClose}
       isDismissable={false}
       shouldBlockScroll={false}
-      // disableAnimation
+    // disableAnimation
     >
       <ModalContent>
         {(onClose) => (
@@ -108,5 +108,3 @@ function EditorModal({ isOpen, onOpenChange }: Props) {
     </Modal>
   );
 }
-
-export default EditorModal;

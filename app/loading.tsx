@@ -3,8 +3,8 @@ import { Spinner } from '@nextui-org/spinner';
 
 type Props = {};
 
-function CandidateLoading({}: Props) {
+function Loading({ }: Props) {
   return <Spinner className='container' />;
 }
 
-export default CandidateLoading;
+export default Loading;

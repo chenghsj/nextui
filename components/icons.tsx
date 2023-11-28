@@ -3,8 +3,9 @@
 import * as React from 'react';
 import { useTheme } from 'next-themes';
 import { IconSvgProps } from '@/types';
+import { FC } from 'react';
 
-export const LogoFooter: React.FC<IconSvgProps> = (props) => (
+export const LogoFooter: FC<IconSvgProps> = (props) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='400'
@@ -32,7 +33,7 @@ export const LogoFooter: React.FC<IconSvgProps> = (props) => (
   </svg>
 );
 
-export const Logo: React.FC<IconSvgProps> = ({
+export const Logo: FC<IconSvgProps> = ({
   fill = '#2900FF',
   size = 36,
   width,
@@ -96,7 +97,7 @@ export const Logo: React.FC<IconSvgProps> = ({
   );
 };
 
-export const DiscordIcon: React.FC<IconSvgProps> = ({
+export const DiscordIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -117,7 +118,7 @@ export const DiscordIcon: React.FC<IconSvgProps> = ({
   );
 };
 
-export const TwitterIcon: React.FC<IconSvgProps> = ({
+export const TwitterIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -138,7 +139,7 @@ export const TwitterIcon: React.FC<IconSvgProps> = ({
   );
 };
 
-export const GithubIcon: React.FC<IconSvgProps> = ({
+export const GithubIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -258,7 +259,7 @@ export const SearchIcon = (props: IconSvgProps) => (
   </svg>
 );
 
-export const NextUILogo: React.FC<IconSvgProps> = (props) => {
+export const NextUILogo: FC<IconSvgProps> = (props) => {
   const { width, height = 40 } = props;
 
   return (
@@ -286,7 +287,7 @@ export const NextUILogo: React.FC<IconSvgProps> = (props) => {
   );
 };
 
-export const PhotoCamera: React.FC<IconSvgProps> = (props) => {
+export const PhotoCamera: FC<IconSvgProps> = (props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -300,7 +301,7 @@ export const PhotoCamera: React.FC<IconSvgProps> = (props) => {
   );
 };
 
-export const NoPhotography: React.FC<IconSvgProps> = (props) => {
+export const NoPhotography: FC<IconSvgProps> = (props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -314,7 +315,7 @@ export const NoPhotography: React.FC<IconSvgProps> = (props) => {
   );
 };
 
-export const Upload: React.FC<IconSvgProps> = (props) => {
+export const Upload: FC<IconSvgProps> = (props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -328,7 +329,7 @@ export const Upload: React.FC<IconSvgProps> = (props) => {
   );
 };
 
-export const ArrowRight: React.FC<IconSvgProps> = (props) => {
+export const ArrowRight: FC<IconSvgProps> = (props) => {
   return (
     <svg
       width='36'
@@ -356,13 +357,30 @@ export const ArrowRight: React.FC<IconSvgProps> = (props) => {
   );
 };
 
-export const Google: React.FC<IconSvgProps> = (props) => {
+export const Google: FC<IconSvgProps> = (props) => {
   return (
-    <svg role="img" viewBox="0 0 24 24" {...props}>
+    <svg role='img' viewBox='0 0 24 24' {...props}>
       <path
         fill={props.fill || 'currentColor'}
-        d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+        d='M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z'
       />
+    </svg>
+  );
+};
+
+export const Edit: FC<IconSvgProps> = (props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" {...props}>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9973 2.00295C23.9933 -0.000984788 20.7443 -0.000984967 18.7404 2.00295L3.09771 17.6456C2.89843 17.8449 2.75148 18.0903 2.66992 18.3601L0.573476 25.2945C0.390999 25.8981 0.555399 26.5531 1.00127 26.999C1.44715 27.4448 2.10217 27.6092 2.70575 27.4268L9.64013 25.3303C9.9099 25.2488 10.1553 25.1018 10.3546 24.9025L25.9973 9.25986C28.0012 7.25592 28.0012 4.00689 25.9973 2.00295Z" fill="#04001A" />
+    </svg>
+  );
+};
+
+export const Close: FC<IconSvgProps> = (props) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M18 6L6 18" stroke="#04001A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M6 6L18 18" stroke="#04001A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   );
 };
