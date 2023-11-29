@@ -1,4 +1,4 @@
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
 import { ReactElement } from 'react';
 import { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: IRootLayout) {
       <head />
       <body
         className={clsx(
-          'min-h-screen bg-background font-sans antialiased',
+          'min-h-screen bg-background font-sans antialiased overflow-x-hidden',
           fontSans.variable
         )}
       >
@@ -61,7 +61,7 @@ export default async function RootLayout({ children }: IRootLayout) {
           session={session}
           themeProps={{ attribute: 'class', defaultTheme: 'light' }}
         >
-          <div className='flex min-h-screen flex-col justify-between overflow-auto'>
+          <div className='flex min-h-screen flex-col justify-between'>
             <Navbar />
             <main className='h-fit w-full'>{children}</main>
             <footer className='w-full bg-gray_b p-4 dark:bg-gray_l4 md:px-[120px] md:py-10'>

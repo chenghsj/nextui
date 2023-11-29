@@ -3,23 +3,22 @@ import { PressEvent } from '@react-types/shared';
 import { TagButton } from '@/components/custom-button';
 import { ModalFooter } from '@nextui-org/react';
 import { useModalContentContext } from './modal-content-provider';
-import { SubmitHandler, useFormContext } from 'react-hook-form';
-import { IProfileModalFields } from './profile-modal';
+import { SubmitHandler, useFormContext, FieldValues } from 'react-hook-form';
 
-type Props<T> = {
-  data: T;
+type Props<TValues> = {
+  values: TValues;
 };
 
-const ModalApplyButtons = <T,>({
-  data
-}: Props<T>) => {
+const ModalApplyButtons = <TValues extends FieldValues,>({
+  values
+}: Props<TValues>) => {
   const methods = useFormContext();
   const { onClose } = useModalContentContext();
 
   const { handleSubmit } = methods;
 
-  const onSubmit: SubmitHandler<IProfileModalFields> = () => {
-    alert(JSON.stringify(data));
+  const onSubmit: SubmitHandler<FieldValues> = () => {
+    alert(JSON.stringify(values));
   };
 
   const handleApplyClick = (e: PressEvent) => {

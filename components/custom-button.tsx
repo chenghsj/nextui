@@ -27,8 +27,10 @@ export const TagButton: FC<ButtonProps> = ({ children, className, ...props }) =>
   return (
     <Button
       className={cn(
+        'text-sm md:text-base',
         'rounded bg-record font-bold italic text-white dark:text-white',
         'border-4 border-gray_b dark:border-2 dark:border-white',
+        'h-fit py-1 px-2  md:h-auto md:px-4',
         className,
       )}
       {...props}

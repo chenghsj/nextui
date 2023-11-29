@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import { KeyboardEvent, PressEvent } from '@react-types/shared';
 import * as v from 'valibot';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { ModalHeader, ModalBody, ModalFooter, Button, Input, Textarea } from '@nextui-org/react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { useDebounce } from '@uidotdev/usehooks';
+import { ModalHeader, ModalBody, Button, Input, Textarea } from '@nextui-org/react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { ModalTypeEnum } from '../candidate';
 import { TagButton } from '../../custom-button';
@@ -25,6 +24,8 @@ export type IProfileModalFields = {
   tags?: string[];
 };
 
+//TODO: auto fill dark text color
+
 const aboutMeFormSchema = v.object({
   firstName: v.optional(v.string()),
   lastName: v.optional(v.string()),
@@ -37,9 +38,12 @@ const input_style = {
     'border-4 border-gray_b data-[hover=true]:border-gray_b',
     'dark:border-white dark:border-2',
     'bg-transparent data-[focus=true]:!bg-record data-[hover=true]:bg-record',
-    'rounded-xl h-fit'
+    'rounded-xl h-fit dark:inputDarkModeOverride',
   ),
-  input: 'rounded-lg italic text-base focus:text-white font-semibold focus:outline-none autofill:!bg-transparent box-border md:p-3'
+  input: cn(
+    'dark:inputDarkModeOverride',
+    'rounded-lg italic text-base focus:text-white font-semibold focus:outline-none box-border md:p-3',
+  )
 };
 
 const tag_input_style = {
@@ -94,6 +98,10 @@ const CandidateModal: FC<Props> = ({
 
   const handleRemoveTag = (removedTag: string) => (e: any) => {
     setTagList(tagList.filter(singleTag => singleTag !== removedTag));
+  };
+
+  const getFormValues = () => {
+    return { ...methods.getValues(), tags: tagList };
   };
 
   return (
@@ -160,8 +168,8 @@ const CandidateModal: FC<Props> = ({
                   className={cn(
                     'bg-record p-1 data-[pressed=true]:transform-none',
                     'rounded-l-none rounded-r-xl',
-                    'md:h-[51px] md:w-[51px]',
-                    'border-4 border-gray_b'
+                    'md:h-[51px] md:w-[51px] dark:md:h-[47px] dark:md:w-[47px]',
+                    'border-4 border-gray_b dark:border-white dark:border-2'
                   )}
                   startContent={<ArrowRight className='w-5 text-base' />}
                   onPress={handleArrowClick}
@@ -190,8 +198,9 @@ const CandidateModal: FC<Props> = ({
           </div>
           <div ref={modalBodyRef} />
         </ModalBody>
+
         <ModalApplyButtons<IProfileModalFields>
-          data={{ ...methods.getValues(), tags: tagList }}
+          values={getFormValues()}
         />
       </form>
     </FormProvider>

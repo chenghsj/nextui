@@ -88,7 +88,7 @@ dependencies:
     version: 4.17.21
   next:
     specifier: 13.4.19
-    version: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+    version: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
   next-auth:
     specifier: ^4.24.5
     version: 4.24.5(next@13.4.19)(react-dom@18.2.0)(react@18.2.0)
@@ -119,6 +119,9 @@ dependencies:
   react-webcam:
     specifier: ^7.2.0
     version: 7.2.0(react-dom@18.2.0)(react@18.2.0)
+  sass:
+    specifier: ^1.69.5
+    version: 1.69.5
   tailwind-merge:
     specifier: ^2.0.0
     version: 2.0.0
@@ -6645,6 +6648,10 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
+  /immutable@4.3.4:
+    resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -7280,7 +7287,7 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.15.4
-      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
       oauth: 0.9.15
       openid-client: 5.6.1
       preact: 10.19.2
@@ -7298,7 +7305,7 @@ packages:
       babel-loader: 8.3.0(@babel/core@7.23.3)(webpack@5.89.0)
       clean-webpack-plugin: 4.0.0(webpack@5.89.0)
       globby: 11.1.0
-      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
       terser-webpack-plugin: 5.3.9(webpack@5.89.0)
       workbox-webpack-plugin: 6.6.0(webpack@5.89.0)
       workbox-window: 6.6.0
@@ -7319,12 +7326,12 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.4.19(@babel/core@7.23.3)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5):
     resolution: {integrity: sha512-HuPSzzAbJ1T4BD8e0bs6B9C1kWQ6gv8ykZoRWs5AQoiIuqbGHHdQO7Ljuvg05Q0Z24E2ABozHe6FxDvI6HfyAw==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -7346,6 +7353,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      sass: 1.69.5
       styled-jsx: 5.1.1(@babel/core@7.23.3)(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -8138,6 +8146,16 @@ packages:
       call-bind: 1.0.5
       get-intrinsic: 1.2.2
       is-regex: 1.1.4
+    dev: false
+
+  /sass@1.69.5:
+    resolution: {integrity: sha512-qg2+UCJibLr2LCVOt3OlPhr/dqVHWOa9XtZf2OjbLs/T4VPSJ00udtgJxH3neXZm+QqX8B+3cU7RaLqp1iVfcQ==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.4
+      source-map-js: 1.0.2
     dev: false
 
   /scheduler@0.23.0:

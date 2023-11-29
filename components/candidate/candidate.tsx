@@ -35,7 +35,7 @@ type Props = {
 
 const section_padding = 'px-10 lg:px-[200px]';
 
-const section_title = 'text-4xl md:text-6xl font-bold italic';
+const section_title = 'text-2xl md:text-6xl font-bold italic';
 
 const avatar_size_company_school = 'min-w-unit-20 min-h-unit-20  md:min-w-[120px] md:min-h-[120px]';
 
@@ -163,7 +163,7 @@ export const Candidate: FC<Props> = ({ candidate }: Props) => {
                 body: 'rounded-none p-0',
               }}
             >
-              <CardBody>
+              <CardBody className='overflow-hidden'>
                 <div className='player-wrapper mb-5'>
                   {isClient && (
                     <ReactPlayer
@@ -186,7 +186,7 @@ export const Candidate: FC<Props> = ({ candidate }: Props) => {
                       </TagButton>
                     ))}
                   </div>
-                  <div className='font-bold italic text-3xl md:text-4xl'>
+                  <div className='font-bold italic text-xl md:text-4xl'>
                     {singleVideo.title}
                   </div>
                   <div className='flex gap-3 text-gray_l2 dark:text-gray_l1 italic'>
