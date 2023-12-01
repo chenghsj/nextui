@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useTheme } from 'next-themes';
 import { IconSvgProps } from '@/types';
 import { FC } from 'react';
+import { useIsClient } from '@uidotdev/usehooks';
 
 export const LogoFooter: FC<IconSvgProps> = (props) => (
   <svg
@@ -40,7 +41,10 @@ export const Logo: FC<IconSvgProps> = ({
   height,
   ...props
 }) => {
-  const { theme = 'light' } = useTheme();
+  const isClient = useIsClient();
+  const { theme } = useTheme();
+
+  if (!isClient) return null;
 
   return theme === 'light' ? (
     <svg

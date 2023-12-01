@@ -6,13 +6,12 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Divider,
   Input,
   Button,
 } from '@nextui-org/react';
 import { valibotResolver } from '@hookform/resolvers/valibot';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { signIn, useSession } from 'next-auth/react';
 import * as v from 'valibot';
 import { CustomButton } from './custom-button';
 import { Google } from './icons';

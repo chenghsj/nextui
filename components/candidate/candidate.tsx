@@ -5,7 +5,6 @@ import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { Avatar, Card, CardBody, Image, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
 import { useIsClient } from '@uidotdev/usehooks';
-import { useSession } from 'next-auth/react';
 import ReactPlayer from 'react-player';
 import { PressEvent } from '@react-types/shared';
 
@@ -16,7 +15,8 @@ import { nFormatter } from '@/utils/n-formatter';
 import { dateFormatter } from '@/utils/date-formatter';
 import cn from '@/utils/cn';
 import ProfileModal from './edit-modal/profile-modal';
-import { ModalContentContext, ModalContentProvider } from './edit-modal/modal-content-provider';
+import { ModalContentProvider } from './edit-modal/modal-content-provider';
+import { ISessionValue, withAuth } from '../hoc/with-auth';
 
 
 dayjs.extend(duration);
@@ -39,15 +39,10 @@ const section_title = 'text-2xl md:text-6xl font-bold italic';
 
 const avatar_size_company_school = 'min-w-unit-20 min-h-unit-20  md:min-w-[120px] md:min-h-[120px]';
 
-export const Candidate: FC<Props> = ({ candidate }: Props) => {
+const Candidate: FC<Props & ISessionValue> = ({ candidate, session }) => {
   const isClient = useIsClient();
-  const session = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modaltype, setModalType] = useState<keyof typeof ModalTypeEnum>('' as keyof typeof ModalTypeEnum);
-
-  if (!session) return null;
-
-  const { data } = session;
 
   const handleOnPress = (e: PressEvent) => {
     const modalType = (e.target as HTMLButtonElement).value as keyof typeof ModalTypeEnum;
@@ -73,7 +68,7 @@ export const Candidate: FC<Props> = ({ candidate }: Props) => {
                 editModal = (
                   <ProfileModal
                     modalType={modaltype}
-                    user={data?.user}
+                    user={session?.user}
                   />
                 );
                 break;
@@ -115,13 +110,13 @@ export const Candidate: FC<Props> = ({ candidate }: Props) => {
           />
           <Avatar
             isBordered
-            src={data?.user?.image!}
+            src={session?.user?.image!}
             classNames={{
               base: 'w-24 h-24 md:w-32 md:h-32 lg:w-[160px] lg:h-[160px] mt-4',
             }}
           />
           <div className='text-3xl md:text-4xl font-bold'>
-            {data?.user!.name}
+            {session?.user!.name}
           </div>
           <div className='font-bold italic'>
             11 Years of NCS. Seeing all of your reactions to our #NCSNostalgia
@@ -302,9 +297,9 @@ export const Candidate: FC<Props> = ({ candidate }: Props) => {
             </div>
           ))}
         </div>
-
-
       </section>
     </>
   );
 };
+
+export default withAuth(Candidate);

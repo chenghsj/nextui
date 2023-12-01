@@ -2,7 +2,7 @@ import React from 'react';
 // import { Button, useDisclosure } from '@nextui-org/react';
 
 
-import { Candidate } from '@/components/candidate/candidate';
+import Candidate from '@/components/candidate/candidate';
 import getURL from '@/utils/get-url';
 
 // import { EditorModal } from '@/components/candidate/editor-modal';

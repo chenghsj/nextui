@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: IRootLayout) {
       <head />
       <body
         className={clsx(
-          'min-h-screen bg-background font-sans antialiased overflow-x-hidden',
+          'min-h-screen bg-background font-sans antialiased overflow-x-clip',
           fontSans.variable
         )}
       >

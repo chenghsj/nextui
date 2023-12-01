@@ -1,6 +1,4 @@
 import React from 'react';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
 import getURL from '@/utils/get-url';
 
 type Props = {
@@ -19,11 +17,6 @@ async function fetchData() {
 async function CandidateLayout({ children }: Props) {
   const data = await fetchData();
   console.log(data);
-  const session = await getServerSession();
-
-  // if (!session) {
-  //   redirect('/auth/signin');
-  // }
 
   return <div className='w-full'>{children}</div>;
 }

@@ -5,7 +5,7 @@ const lorem30 =
   'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio praesentium suscipit cupiditate laborum delectus expedita adipisci eveniet ullam officiis atque at exercitationem architecto nihil amet asperiores nobis, est fugit. Expedita.';
 
 export const imageURL =
-  'https://s3-alpha-sig.figma.com/img/15ce/1675/aedc0671b907cdaaa7729b4e72611ce2?Expires=1701043200&Signature=PU3L1tDZMVxkheQIyUSIq5bcCDmv04oPKEvAONYKEigJap9noLHGNCE0p76N8T8inDWY0X0nTHeSqtEesxmkl4YX4mVw0Xc3k0UzCWFyYpniHk7lyJ-ohpmQEt4K~1Oxac30pil5V8pFQd6xERGBNRwJuWIVrs9xaPOVIAICMBsWGsChsuDukWC17nizjVqqjwdqQMVgCKefdZFQiw2dDJijsqf3JK5xpst1gL15A3yXlcjUW980DkgfBkIBbSUoFSE-VfdzCfGTr~1mL-goPWI93CC1fVegCDoNG8GzyW4jRVyW42eB6nZYwV0ubIKWO~SYwE5mc0c-ID6NTAY56g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
+  'https://s3-alpha-sig.figma.com/img/15ce/1675/aedc0671b907cdaaa7729b4e72611ce2?Expires=1702252800&Signature=qRIHfahCjUUF7-NBlXeKfMlJn~4ilZ-pQ-lxiEI~UqzBQ~bTu32wbnCWQg~yp8ehihu4BB8-RISlRY2nmQjuOl45RYOY1CcyJ10u9P5-quF9pABvO3vPZsdwjXXbtZV3IJ9wJ7AnDgc6Whe-krI0xRis7EbcPGwanAJrxjW8FnLQoIGllxu~oV8q9H4E00XWXE4lDsTh8NwayC5Dee6vma5YkwRDWqsTRB-HPLwHF8qzX1bB8kRhqhyj~0RTwYE7klXDbAUqMlbOF8W5oQ82pOGM7y32oP6tVBCw-l1FRyjc~cHX4JI9vvItITS3PIlXjY3mJPIh6HQmRz-DUI23YQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
 
 export const userTagList = ['#google', '#microsoft', '#meta', '#netflix'];
 
