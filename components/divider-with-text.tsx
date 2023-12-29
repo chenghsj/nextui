@@ -1,7 +1,7 @@
 import cn from '@/utils/cn';
 import React, { FC, ReactNode } from 'react';
 
-type IClassNames = {
+type ClassNamesType = {
   base: string;
   divider: string;
   content: string;
@@ -10,7 +10,7 @@ type IClassNames = {
 type Props = {
   children: ReactNode;
   className?: string;
-  classNames?: Partial<IClassNames>;
+  classNames?: Partial<ClassNamesType>;
 };
 
 const DividerWithText: FC<Props> = ({

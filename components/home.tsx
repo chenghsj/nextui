@@ -17,7 +17,7 @@ const section_padding = 'px-10 lg:px-40 xl:px-96 py-20';
 
 const section_height = 'h-[calc(100vh-(3.5)rem)] md:h-[calc(100vh-4rem)]';
 
-export function Home({ accordions, videos }: IHomePage) {
+export function Home({ accordions, videos }: HomePageType) {
   const [joinEmail, setJoinEmail] = useState('');
 
   return (

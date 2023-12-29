@@ -1,9 +1,8 @@
 import '@/styles/globals.scss';
 import { ReactElement } from 'react';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
-import { Providers } from './providers';
 import { Navbar } from '@/components/navbar';
 import { Link } from '@nextui-org/link';
 import clsx from 'clsx';
@@ -13,39 +12,42 @@ import {
   GithubIcon,
   LogoFooter,
 } from '@/components/icons';
+import { Providers } from '@/providers/root-providers';
 import { Session, getServerSession } from 'next-auth';
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
+};
+
 export const metadata: Metadata = {
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: 'cover'
-  },
   title: {
     default: siteConfig.name,
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
   appleWebApp: true,
-  manifest: "/manifest.json"
+  manifest: '/manifest.json',
 };
 
-type IRootLayout = {
+type RootLayoutType = {
   children: ReactElement;
 };
 
-export default async function RootLayout({ children }: IRootLayout) {
+export default async function RootLayout({ children }: RootLayoutType) {
   const session = (await getServerSession()) as Session;
 
   return (
@@ -53,7 +55,7 @@ export default async function RootLayout({ children }: IRootLayout) {
       <head />
       <body
         className={clsx(
-          'min-h-screen bg-background font-sans antialiased overflow-x-clip',
+          'min-h-screen overflow-x-clip bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
@@ -63,7 +65,7 @@ export default async function RootLayout({ children }: IRootLayout) {
         >
           <div className='flex min-h-screen flex-col justify-between'>
             <Navbar />
-            <main className='h-fit w-full'>{children}</main>
+            <main className='flex flex-col flex-1 w-full'>{children}</main>
             <footer className='w-full bg-gray_b p-4 dark:bg-gray_l4 md:px-[120px] md:py-10'>
               <div className='flex items-center justify-between border-b-gray_l1 md:border-t-[0.5px] md:py-5'>
                 <div>

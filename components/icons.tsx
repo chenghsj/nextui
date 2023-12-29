@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useTheme } from 'next-themes';
 import { IconSvgProps } from '@/types';
 import { FC } from 'react';
-import { useIsClient } from '@uidotdev/usehooks';
+import { useIsClient } from 'usehooks-ts';
 
 export const LogoFooter: FC<IconSvgProps> = (props) => (
   <svg
@@ -17,16 +17,16 @@ export const LogoFooter: FC<IconSvgProps> = (props) => (
   >
     <g opacity='0.5'>
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M0 19.8466L3.27256 0.5H20.2145H86.5785H98.2129H103.52H115.155H122.035H133.766H138.977H150.708H217.072H228.706H234.014H245.648H252.529H269.47L256.38 79.7152H280.442H292.713L305.864 0.5H322.806H374.588H391.53L388.257 19.8466H371.315H343.356L340.083 40.0595H364.53H381.471L378.199 59.4542H361.257H336.811L333.538 79.7152H361.498H378.439L375.167 99.0618H358.225H306.443H294.111H289.501H277.169H229.285H212.343L225.494 19.8466H213.799H200.855L187.765 99.0618H170.823H164.279H147.337L160.428 19.8466H147.435H135.765L122.614 99.0618H105.672H98.792H81.8501L95.0011 19.8466H83.3059H70.3616L57.2714 99.0618H40.3295H33.786H16.8441L29.9343 19.8466H16.9419H0Z'
         fill='white'
       />
     </g>
     <g opacity='0.8'>
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M8.47021 19.8466L11.7428 0.5H28.6847H95.0487H106.683H111.991H123.625H130.505H142.236H147.447H159.178H225.542H237.176H242.484H254.118H260.999H277.941L264.85 79.7152H288.912H301.183L314.334 0.5H331.276H383.058H400L396.727 19.8466H379.785H351.826L348.553 40.0595H373H389.942L386.669 59.4542H369.727H345.281L342.008 79.7152H369.968H386.91L383.637 99.0618H366.695H314.913H302.581H297.971H285.639H237.756H220.814L233.965 19.8466H222.269H209.325L196.235 99.0618H179.293H172.75H155.808L168.898 19.8466H155.905H144.235L131.085 99.0618H114.143H107.262H90.3203L103.471 19.8466H91.7761H78.8318L65.7416 99.0618H48.7997H42.2562H25.3143L38.4045 19.8466H25.4121H8.47021Z'
         fill='white'
       />
@@ -57,16 +57,16 @@ export const Logo: FC<IconSvgProps> = ({
     >
       <g opacity='0.5'>
         <path
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M0 4.83665L0.81814 0H5.05359H21.6446H24.5532H25.8801H28.7887H30.5088H33.4415H34.7443H37.6769H54.268H57.1766H58.5034H61.412H63.1321H67.3676L64.095 19.8038H70.1104H73.1783L76.466 0H80.7015H93.647H97.8824L97.0643 4.83665H92.8288H85.8389L85.0208 9.88987H91.1324H95.3678L94.5497 14.7386H90.3142H84.2026L83.3845 19.8038H90.3744H94.6098L93.7917 24.6405H89.5563H76.6108H73.5277H72.3753H69.2923H57.3213H53.0859L56.3736 4.83665H53.4498H50.2137L46.9412 24.6405H42.7057H41.0698H36.8344L40.1069 4.83665H36.8588H33.9413L30.6536 24.6405H26.4181H24.698H20.4625L23.7503 4.83665H20.8265H17.5904L14.3178 24.6405H10.0824H8.44646H4.21102L7.48358 4.83665H4.23545H0Z'
           fill='#2900FF'
         />
       </g>
       <g opacity='0.8'>
         <path
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M2.11755 4.83665L2.93569 0H7.17113H23.7622H26.6708H27.9976H30.9062H32.6264H35.559H36.8618H39.7945H56.3855H59.2941H60.6209H63.5295H65.2497H69.4851L66.2126 19.8038H72.228H75.2958L78.5836 0H82.819H95.7645H99.9999L99.1818 4.83665H94.9464H87.9564L87.1383 9.88987H93.2499H97.4854L96.6672 14.7386H92.4318H86.3202L85.502 19.8038H92.492H96.7274L95.9092 24.6405H91.6738H78.7283H75.6452H74.4929H71.4098H59.4388H55.2034L58.4912 4.83665H55.5674H52.3313L49.0587 24.6405H44.8233H43.1873H38.9519L42.2245 4.83665H38.9763H36.0588L32.7711 24.6405H28.5357H26.8155H22.5801L25.8678 4.83665H22.944H19.7079L16.4354 24.6405H12.1999H10.564H6.32857L9.60113 4.83665H6.35299H2.11755Z'
           fill='#2900FF'
         />
@@ -83,16 +83,16 @@ export const Logo: FC<IconSvgProps> = ({
     >
       <g opacity='0.5'>
         <path
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M5 5.83665L5.81814 1H10.0536H26.6446H29.5532H30.8801H33.7887H35.5088H38.4415H39.7443H42.6769H59.268H62.1766H63.5034H66.412H68.1321H72.3676L69.095 20.8038H75.1104H78.1783L81.466 1H85.7015H98.647H102.882L102.064 5.83665H97.8288H90.8389L90.0208 10.8899H96.1324H100.368L99.5497 15.7386H95.3142H89.2026L88.3845 20.8038H95.3744H99.6098L98.7917 25.6405H94.5563H81.6108H78.5277H77.3753H74.2923H62.3213H58.0859L61.3736 5.83665H58.4498H55.2137L51.9412 25.6405H47.7057H46.0698H41.8344L45.1069 5.83665H41.8588H38.9413L35.6536 25.6405H31.4181H29.698H25.4625L28.7503 5.83665H25.8265H22.5904L19.3178 25.6405H15.0824H13.4465H9.21102L12.4836 5.83665H9.23545H5Z'
           fill='white'
         />
       </g>
       <g opacity='0.8'>
         <path
-          fill-rule='evenodd'
-          clip-rule='evenodd'
+          fillRule='evenodd'
+          clipRule='evenodd'
           d='M7.11755 5.83665L7.93569 1H12.1711H28.7622H31.6708H32.9976H35.9062H37.6264H40.559H41.8618H44.7945H61.3855H64.2941H65.6209H68.5295H70.2497H74.4851L71.2126 20.8038H77.228H80.2958L83.5836 1H87.819H100.765H105L104.182 5.83665H99.9464H92.9564L92.1383 10.8899H98.2499H102.485L101.667 15.7386H97.4318H91.3202L90.502 20.8038H97.492H101.727L100.909 25.6405H96.6738H83.7283H80.6452H79.4929H76.4098H64.4388H60.2034L63.4912 5.83665H60.5674H57.3313L54.0587 25.6405H49.8233H48.1873H43.9519L47.2245 5.83665H43.9763H41.0588L37.7711 25.6405H33.5357H31.8155H27.5801L30.8678 5.83665H27.944H24.7079L21.4354 25.6405H17.1999H15.564H11.3286L14.6011 5.83665H11.353H7.11755Z'
           fill='white'
         />
@@ -334,6 +334,11 @@ export const Upload: FC<IconSvgProps> = (props) => {
 };
 
 export const ArrowRight: FC<IconSvgProps> = (props) => {
+  const isClient = useIsClient();
+  const { theme } = useTheme();
+
+  if (!isClient) return null;
+
   return (
     <svg
       width='36'
@@ -345,17 +350,17 @@ export const ArrowRight: FC<IconSvgProps> = (props) => {
     >
       <path
         d='M7.5 18H28.5'
-        stroke='#04001A'
-        stroke-width='6'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        stroke={theme === 'light' ? '#04001A' : 'white'}
+        strokeWidth='6'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M18 7.5L28.5 18L18 28.5'
-        stroke='#04001A'
-        stroke-width='6'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        stroke={theme === 'light' ? '#04001A' : 'white'}
+        strokeWidth='6'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );
@@ -374,17 +379,87 @@ export const Google: FC<IconSvgProps> = (props) => {
 
 export const Edit: FC<IconSvgProps> = (props) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" {...props}>
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M25.9973 2.00295C23.9933 -0.000984788 20.7443 -0.000984967 18.7404 2.00295L3.09771 17.6456C2.89843 17.8449 2.75148 18.0903 2.66992 18.3601L0.573476 25.2945C0.390999 25.8981 0.555399 26.5531 1.00127 26.999C1.44715 27.4448 2.10217 27.6092 2.70575 27.4268L9.64013 25.3303C9.9099 25.2488 10.1553 25.1018 10.3546 24.9025L25.9973 9.25986C28.0012 7.25592 28.0012 4.00689 25.9973 2.00295Z" fill="#04001A" />
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='28'
+      height='28'
+      viewBox='0 0 28 28'
+      fill='none'
+      {...props}
+    >
+      <path
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M25.9973 2.00295C23.9933 -0.000984788 20.7443 -0.000984967 18.7404 2.00295L3.09771 17.6456C2.89843 17.8449 2.75148 18.0903 2.66992 18.3601L0.573476 25.2945C0.390999 25.8981 0.555399 26.5531 1.00127 26.999C1.44715 27.4448 2.10217 27.6092 2.70575 27.4268L9.64013 25.3303C9.9099 25.2488 10.1553 25.1018 10.3546 24.9025L25.9973 9.25986C28.0012 7.25592 28.0012 4.00689 25.9973 2.00295Z'
+        fill='#04001A'
+      />
     </svg>
   );
 };
 
 export const Close: FC<IconSvgProps> = (props) => {
+  const { theme } = useTheme();
+
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-      <path d="M18 6L6 18" stroke="#04001A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M6 6L18 18" stroke="#04001A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      {...props}
+    >
+      <path
+        d='M18 6L6 18'
+        stroke={theme === 'light' ? '#04001A' : 'white'}
+        strokeWidth='4'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+      <path
+        d='M6 6L18 18'
+        stroke={theme === 'light' ? '#04001A' : 'white'}
+        strokeWidth='4'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  );
+};
+
+export const Plus: FC<IconSvgProps> = (props) => {
+  const isClient = useIsClient();
+  const { theme } = useTheme();
+
+  if (!isClient) return null;
+
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='26'
+      height='26'
+      viewBox='0 0 26 26'
+      fill='none'
+      {...props}
+    >
+      <g id='plus'>
+        <path
+          id='Vector'
+          d='M13.3171 2L13 23.9979'
+          stroke={theme === 'light' ? '#04001A' : 'white'}
+          strokeWidth='4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+        <path
+          id='Vector_2'
+          d='M2 13L24 13'
+          stroke={theme === 'light' ? '#04001A' : 'white'}
+          strokeWidth='4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+      </g>
     </svg>
   );
 };

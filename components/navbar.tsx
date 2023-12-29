@@ -14,7 +14,7 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react';
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useWindowSize } from 'usehooks-ts';
 
 import { siteConfig } from '@/config/site';
 import NextLink from 'next/link';
@@ -151,16 +151,18 @@ export const Navbar = () => {
         )}
       </NavbarContent>
 
-      <div className={cn(
-        'absolute w-screen bg-white list-none left-0 top-[3.5rem] md:top-[5rem] opacity-95 transition-height',
-        `${isMenuOpen ? `h-[100dvh]` : 'h-0'}`,
-      )}>
-
-      </div>
-      <div className={cn(
-        'absolute w-screen mx-4 mt-2 flex flex-col gap-2 top-[4rem] md:top-[5.5rem]',
-        `${isMenuOpen ? `visible` : 'invisible'}`,
-      )}>
+      <div
+        className={cn(
+          'absolute left-0 top-[3.5rem] w-screen list-none bg-white opacity-95 transition-height md:top-[5rem]',
+          `${isMenuOpen ? `h-[100dvh]` : 'h-0'}`
+        )}
+      ></div>
+      <div
+        className={cn(
+          'absolute top-[4rem] mx-4 mt-2 flex w-screen flex-col gap-2 md:top-[5.5rem]',
+          `${isMenuOpen ? `visible` : 'invisible'}`
+        )}
+      >
         {siteConfig.navMenuItems.map((item, index) => (
           <Link
             key={`${item}-${index}`}
@@ -181,4 +183,3 @@ export const Navbar = () => {
     </NextUINavbar>
   );
 };
-

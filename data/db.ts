@@ -5,7 +5,7 @@ const lorem30 =
   'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio praesentium suscipit cupiditate laborum delectus expedita adipisci eveniet ullam officiis atque at exercitationem architecto nihil amet asperiores nobis, est fugit. Expedita.';
 
 export const imageURL =
-  'https://s3-alpha-sig.figma.com/img/15ce/1675/aedc0671b907cdaaa7729b4e72611ce2?Expires=1702252800&Signature=qRIHfahCjUUF7-NBlXeKfMlJn~4ilZ-pQ-lxiEI~UqzBQ~bTu32wbnCWQg~yp8ehihu4BB8-RISlRY2nmQjuOl45RYOY1CcyJ10u9P5-quF9pABvO3vPZsdwjXXbtZV3IJ9wJ7AnDgc6Whe-krI0xRis7EbcPGwanAJrxjW8FnLQoIGllxu~oV8q9H4E00XWXE4lDsTh8NwayC5Dee6vma5YkwRDWqsTRB-HPLwHF8qzX1bB8kRhqhyj~0RTwYE7klXDbAUqMlbOF8W5oQ82pOGM7y32oP6tVBCw-l1FRyjc~cHX4JI9vvItITS3PIlXjY3mJPIh6HQmRz-DUI23YQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4';
+  'https://images.unsplash.com/photo-1537727365640-d9b9cbeeac34?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 export const userTagList = ['#google', '#microsoft', '#meta', '#netflix'];
 
@@ -16,7 +16,7 @@ export const userVideoURLList = [
   'https://youtu.be/xrRDlOWR1OU?si=4-Q657qmn81itZpI',
 ];
 
-const db: IDB = {
+const db: DBType = {
   home: {
     accordions: [
       {
@@ -69,9 +69,11 @@ const db: IDB = {
   candidate: {
     user: {
       id: 0,
-      firstName: '',
-      lastName: '',
+      firstName: 'HS',
+      lastName: 'Cheng',
       imgURL: '',
+      aboutMe:
+        " 11 Years of NCS. Seeing all of your reactions to our #NCSNostalgia week has been truly humbling and we couldn't be more thankful.",
       tags: ['#google', '#microsoft', '#meta', '#netflix'],
     },
     videos: [
@@ -94,37 +96,44 @@ const db: IDB = {
         applications: 5,
       },
     ],
-    experience: {
-      work: [
-        {
-          company: 'Apple Inc.',
-          companyImgURL: '',
-          position: 'Product Designer | Full',
-          time: '2023/09/01 - Now',
-          description: '',
-          tags: ['#uiux', '#figma', '#b2b', '#iphone', '#ios16'],
-        },
-        {
-          company: 'Google Inc.',
-          companyImgURL: '',
-          position: 'UX Designer | Full',
-          time: '2020/12/01 - 2023/09/01',
-          description: '',
-          tags: ['#ai', '#b2c2b', '#b2b', '#productstrategy', '#generative'],
-        },
-      ],
-    },
-    education: {
-      school: [
-        {
-          name: 'NCKU',
-          schoolImgURL: '',
-          degree: "Bachelor's Degree | Full",
-          time: '2016/09/01 - 2020/06/30',
-          description: '',
-        },
-      ],
-    },
+    workExp: [
+      {
+        id: 23,
+        company: 'Apple Inc.',
+        companyImgURL: '',
+        position: 'Product Designer',
+        currentJob: true,
+        startDate: '2023/09/01',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit, unde explicabo praesentium laborum distinctio facere cumque a vitae ut, quam error fugiat, dolorum vero. Incidunt ipsam architecto perspiciatis, temporibus animi maiores? Sunt sapiente dolorum voluptatem, blanditiis omnis ad perspiciatis tempora fugiat eos amet neque vero iure facilis atque, sed repellat.',
+        type: 'FullTime',
+        tags: ['#uiux', '#figma', '#b2b', '#iphone', '#ios16'],
+      },
+      {
+        id: 50,
+        company: 'Google Inc.',
+        companyImgURL: '',
+        position: 'UX Designer',
+        currentJob: false,
+        startDate: '2020/12/01',
+        endDate: '2023/09/01',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit, unde explicabo praesentium laborum distinctio facere cumque a vitae ut, quam error fugiat, dolorum vero. Incidunt ipsam architecto perspiciatis, temporibus animi maiores? Sunt sapiente dolorum voluptatem, blanditiis omnis ad perspiciatis tempora fugiat eos amet neque vero iure facilis atque, sed repellat.',
+        type: 'FullTime',
+        tags: ['#ai', '#b2c2b', '#b2b', '#productstrategy', '#generative'],
+      },
+    ],
+    education: [
+      {
+        id: 20,
+        name: 'NCKU',
+        schoolImgURL: '',
+        degree: "Bachelor's Degree | Full",
+        time: '2016/09/01 - 2020/06/30',
+        description:
+          'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit, unde explicabo praesentium laborum distinctio facere cumque a vitae ut, quam error fugiat, dolorum vero. Incidunt ipsam architecto perspiciatis, temporibus animi maiores? Sunt sapiente dolorum voluptatem, blanditiis omnis ad perspiciatis tempora fugiat eos amet neque vero iure facilis atque, sed repellat.',
+      },
+    ],
   },
 };
 

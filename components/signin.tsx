@@ -2,13 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { redirect } from 'next/navigation';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Input,
-  Button,
-} from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Input, Button } from '@nextui-org/react';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { signIn, useSession } from 'next-auth/react';
@@ -17,9 +11,9 @@ import { CustomButton } from './custom-button';
 import { Google } from './icons';
 import DividerWithText from './divider-with-text';
 
-interface IFormInput {
+type FormInputType = {
   email: string;
-}
+};
 
 type Props = {};
 
@@ -33,14 +27,14 @@ export function Signin({ }: Props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({
+  } = useForm<FormInputType>({
     mode: 'onChange',
     defaultValues: {
       email: '',
     },
     resolver: valibotResolver(LoginFormSchema),
   });
-  const onSubmit: SubmitHandler<IFormInput> = (data) =>
+  const onSubmit: SubmitHandler<FormInputType> = (data) =>
     alert(JSON.stringify(data, null, 2));
 
   useEffect(() => {

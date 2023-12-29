@@ -1,154 +1,229 @@
 'use client';
 
-import React, { FC, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
+import _ from 'lodash';
 import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { Avatar, Card, CardBody, Image, Modal, ModalContent, useDisclosure } from '@nextui-org/react';
-import { useIsClient } from '@uidotdev/usehooks';
-import ReactPlayer from 'react-player';
+import { Avatar, Image, Modal, ModalContent, ModalHeader } from '@nextui-org/react';
 import { PressEvent } from '@react-types/shared';
-
-
-import { imageURL, userTagList, userVideoURLList } from '@/data/db';
-import { EditButton, TagButton } from '../custom-button';
-import { nFormatter } from '@/utils/n-formatter';
-import { dateFormatter } from '@/utils/date-formatter';
 import cn from '@/utils/cn';
-import ProfileModal from './edit-modal/profile-modal';
-import { ModalContentProvider } from './edit-modal/modal-content-provider';
-import { ISessionValue, withAuth } from '../hoc/with-auth';
 
+import { AddButton, EditButton, TagButton } from '../custom-button';
+import { ModalContentProvider, ModalModeEnum } from '@/providers/candidate/modal-content-provider';
+import { Education, WorkExperience } from '@prisma/client';
+import { UserWithProfile } from '@/lib/types';
+import { useIsClient } from 'usehooks-ts';
+import { useModalDisclosureContext } from '@/providers/modal-disclosure-provider';
+import ProfileCoverModal from './modal/profile-cover-modal';
+import ProfileModal from './modal/profile-modal';
+import WorkExpModal from './modal/work-exp-modal';
 
 dayjs.extend(duration);
 
 export enum ModalTypeEnum {
-  Profile_Cover = 'Profile_Cover',
-  Video_Resume = 'Video_Resume',
-  Profile = 'Profile',
-  Work_Exp = 'Work_Exp',
-  Education = 'Education'
+  Profile_Cover = 'profile-cover',
+  Video_Resume = 'video-resume',
+  Profile = 'profile',
+  Work_Exp = 'work-experience',
+  Education = 'education',
 }
 
-type Props = {
-  candidate: ICandidatePage;
+type CandidateProps = {
+  candidate: UserWithProfile;
 };
+
+type ProfilePressEventType =
+  | {
+    type: 'Add';
+  }
+  | {
+    type: 'Edit';
+    id: number | string;
+  };
+
+type ProfilePressEvent = <Type extends ProfilePressEventType['type']>(
+  ...args: Extract<ProfilePressEventType, { type: Type; }> extends {
+    id: infer ID;
+  }
+    ? [type: Type, id: ID]
+    : [type: Type]
+) => (e: PressEvent) => void;
 
 const section_padding = 'px-10 lg:px-[200px]';
 
 const section_title = 'text-2xl md:text-6xl font-bold italic';
 
-const avatar_size_company_school = 'min-w-unit-20 min-h-unit-20  md:min-w-[120px] md:min-h-[120px]';
+const experience_avatar_style = cn(
+  'border-4 dark:border-2 md:border-8 md:dark:border-5',
+  'border-gray_b dark:border-white',
+  'min-w-unit-16 min-h-unit-16 md:min-w-[120px] md:min-h-[120px]'
+);
 
-const Candidate: FC<Props & ISessionValue> = ({ candidate, session }) => {
+// TODO: add submitting state
+// TODO: form modal validation using valibot resolver?
+
+export const Candidate: FC<CandidateProps> = ({ candidate }) => {
   const isClient = useIsClient();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [modaltype, setModalType] = useState<keyof typeof ModalTypeEnum>('' as keyof typeof ModalTypeEnum);
+  const { isOpen, onOpen, onOpenChange } = useModalDisclosureContext();
 
-  const handleOnPress = (e: PressEvent) => {
-    const modalType = (e.target as HTMLButtonElement).value as keyof typeof ModalTypeEnum;
-    setModalType(modalType);
-    onOpen();
-  };
+  const [workExp, setWorkExp] = useState<WorkExperience>({} as WorkExperience);
+  const [education, setEducation] = useState<Education>({} as Education);
+  const [modaltype, setModalType] = useState<`${ModalTypeEnum}`>('profile');
+  const [mode, setMode] = useState<`${ModalModeEnum}`>('Add');
+
+  const handleOnPress: ProfilePressEvent =
+    (...args) =>
+      (e: PressEvent) => {
+        const modalType = (e.target as HTMLButtonElement)
+          .value as `${ModalTypeEnum}`;
+        setMode(args[0]);
+
+        if (args[0] === 'Edit') {
+          if (
+            modalType === 'work-experience' && candidate.profile?.workExperiences) {
+            setWorkExp(
+              candidate.profile?.workExperiences.filter(
+                (singleWork) => singleWork.id === args[1]
+              )[0]
+            );
+          } else if (modalType === 'education' && candidate.profile?.educations) {
+            setEducation(candidate.profile?.educations.filter(
+              singleEdu => singleEdu.id === args[1])[0]
+            );
+          }
+        } else {
+          setWorkExp({} as WorkExperience);
+          setEducation({} as Education);
+        }
+        setModalType(modalType);
+        onOpen();
+      };
+
+  let editModal: ReactElement;
+  let formInitialValues = {};
+  let title = '';
+
+  switch (modaltype) {
+    case 'profile-cover':
+      title = 'Cover';
+      editModal = <ProfileCoverModal />;
+      break;
+    case 'video-resume':
+      title = 'Video Resume';
+      editModal = <></>;
+      break;
+    case 'profile':
+      title = 'Profile';
+      formInitialValues = candidate.profile!;
+      editModal = <ProfileModal />;
+      break;
+    case 'work-experience':
+      title = 'Work Experience';
+      formInitialValues = workExp;
+      editModal = <WorkExpModal />;
+      break;
+    case 'education':
+      title = 'Education';
+      formInitialValues = education;
+      editModal = <WorkExpModal />;
+      break;
+    default:
+      editModal = <></>;
+      break;
+  }
 
   return (
     <>
-      <Modal
-        className='h-[80%]'
-        radius='sm'
-        size='4xl'
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+      <ModalContentProvider
+        formInitialValues={formInitialValues}
+        mode={mode}
+        modalType={modaltype}
+        candidate={candidate}
       >
-        <ModalContent>
-          {(onClose) => {
-            let editModal;
-
-            switch (modaltype) {
-              case ModalTypeEnum.Profile:
-                editModal = (
-                  <ProfileModal
-                    modalType={modaltype}
-                    user={session?.user}
-                  />
-                );
-                break;
-              default:
-                editModal = <></>;
-                break;
-            }
-            return (
-              <ModalContentProvider onClose={onClose}>
-                {editModal}
-              </ModalContentProvider>
-            );
-          }}
-        </ModalContent>
-      </Modal>
+        <Modal
+          className='h-[80%]'
+          radius='sm'
+          size='4xl'
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          hideCloseButton
+        >
+          <ModalContent>
+            <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
+              {mode} {title}
+            </ModalHeader>
+            <form className='h-[90%] sm:h-[85%]'>{editModal}</form>
+          </ModalContent>
+        </Modal>
+      </ModalContentProvider>
       {/* about */}
       <section className='relative top-0 w-full pb-10'>
         <EditButton
+          className='mt-10'
           value={ModalTypeEnum.Profile_Cover}
-          onPress={handleOnPress}
+          onPress={handleOnPress('Edit', candidate.id)}
         />
-        <Image
-          radius='none'
-          src={imageURL}
-          alt='profile background cover'
-          classNames={{
-            wrapper: 'w-full h-40 md:h-52 lg:h-64 xl:h-[360px] !max-w-full',
-            img: 'w-full h-full object-cover',
-          }}
-        />
-        <div className={cn(
-          'flex flex-col gap-2 md:gap-5',
-          'text-gray_b dark:text-white',
-          section_padding
-        )}>
+        {candidate.profile?.coverURL ? (
+          <Image
+            radius='none'
+            src={candidate.profile?.coverURL || ""}
+            alt='profile background cover'
+            classNames={{
+              wrapper: 'w-full h-40 md:h-52 lg:h-64 xl:h-[360px] !max-w-full',
+              img: 'w-full h-full object-cover',
+            }}
+          />
+        ) :
+          <div className='w-full h-40 md:h-52 lg:h-64 xl:h-[360px] !max-w-full bg-slate-400' />
+        }
+        <div
+          className={cn(
+            'flex flex-col gap-2 md:gap-5',
+            'text-gray_b dark:text-white',
+            section_padding
+          )}
+        >
           <EditButton
+            className='mt-10'
             value={ModalTypeEnum.Profile}
-            onPress={handleOnPress}
+            onPress={handleOnPress('Edit', candidate.id)}
           />
           <Avatar
             isBordered
-            src={session?.user?.image!}
+            name={candidate.name || ''}
+            src={candidate.image!}
             classNames={{
               base: 'w-24 h-24 md:w-32 md:h-32 lg:w-[160px] lg:h-[160px] mt-4',
             }}
           />
-          <div className='text-3xl md:text-4xl font-bold'>
-            {session?.user!.name}
+          <div className='text-3xl font-bold md:text-4xl'>
+            {candidate.profile?.fullName || candidate.name}
           </div>
-          <div className='font-bold italic'>
-            11 Years of NCS. Seeing all of your reactions to our #NCSNostalgia
-            week has been truly humbling and we couldn&apos;t be more thankful.
-          </div>
-          <div className='flex gap-3 flex-wrap'>
-            {userTagList.map((singleTag, index) => (
-              <TagButton
-                key={index}
-                value={singleTag}
-              >
+          <div className='font-bold italic whitespace-pre-wrap'>{candidate.profile?.bio}</div>
+          <div className='flex flex-wrap gap-3'>
+            {candidate.profile?.tags?.map((singleTag, index) => (
+              <TagButton key={index} value={singleTag}>
                 {singleTag}
               </TagButton>
             ))}
           </div>
         </div>
-      </section >
+      </section>
       {/** video */}
-      <section className='flex flex-col relative'>
-        <EditButton
-          className='relative ml-auto'
-          value={ModalTypeEnum.Video_Resume}
-          onPress={handleOnPress}
-        />
+      {/* <section className='flex flex-col relative'>
         <div className={cn(
           section_title,
           section_padding
         )}>
-          My Video Resume
+          Video Resume
+          <EditButton
+            className='absolute'
+            value={ModalTypeEnum.Video_Resume}
+            onPress={handleOnPress('Edit', candidate.profile?.id || '')}
+          />
         </div>
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 sm:p-10'>
-          {candidate.videos.map((singleVideo, index) => (
+          {candidate.profile?.videoResumes.map((singleVideo, index) => (
             <Card
               shadow='none'
               radius='sm'
@@ -165,7 +240,7 @@ const Candidate: FC<Props & ISessionValue> = ({ candidate, session }) => {
                       className='react-player'
                       width='100%'
                       height='100%'
-                      url={singleVideo.url}
+                      url={singleVideo.url || ''}
                       controls
                     />
                   )}
@@ -200,66 +275,61 @@ const Candidate: FC<Props & ISessionValue> = ({ candidate, session }) => {
             </Card>
           ))}
         </div>
-      </section>
+      </section> */}
       <section className='relative flex flex-col pb-10'>
-        <EditButton
-          className='relative ml-auto'
-          value={ModalTypeEnum.Work_Exp}
-          onPress={handleOnPress}
-        />
-        <div className={cn(
-          section_padding,
-          'flex flex-col gap-10'
-        )}>
-          <div className={cn(
-            section_title
-          )}>
+        <div className={cn(section_padding, 'flex flex-col gap-10')}>
+          <div className={cn(section_title)}>
             Work Experience
+            <AddButton
+              className='absolute'
+              value={ModalTypeEnum.Work_Exp}
+              onPress={handleOnPress('Add')}
+            />
           </div>
-          {candidate.experience.work.map(singleWork => (
-            <div key={singleWork.company} className='flex flex-col gap-5'>
+          {candidate.profile?.workExperiences?.map((singleWork) => (
+            <div key={singleWork.id} className='flex flex-col gap-5'>
               <div key={singleWork.company} className='flex gap-5'>
                 <Avatar
-                  className={cn(
-                    avatar_size_company_school
-                  )}
-                  src={singleWork.companyImgURL}
+                  name={singleWork.company[0].toUpperCase()}
+                  src={singleWork.companyImg || ''}
+                  classNames={{
+                    base: cn(experience_avatar_style),
+                    name: 'text-2xl md:text-6xl font-bold'
+                  }}
                 />
                 <div className='flex flex-col gap-2'>
-                  <div className='text-4xl font-bold italic'>
+                  <div className='text-2xl md:text-4xl font-bold italic'>
                     {singleWork.company}
                   </div>
                   <div className='text-base font-bold italic'>
-                    {singleWork.position}
+                    {singleWork.position} | {singleWork.workType}
                     <br />
-                    {singleWork.time}
+                    {singleWork.startDate.toString().substring(0, 10).replaceAll('-', '/')} -{' '}
+                    {singleWork.currentJob
+                      ? 'Now'
+                      : singleWork.endDate?.toString().substring(0, 10).replaceAll('-', '/')}
                   </div>
-                  <div>
-                  </div>
-                  <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit, unde explicabo praesentium laborum distinctio facere cumque a vitae ut, quam error fugiat, dolorum vero. Incidunt ipsam architecto perspiciatis, temporibus animi maiores? Sunt sapiente dolorum voluptatem, blanditiis omnis ad perspiciatis tempora fugiat eos amet neque vero iure facilis atque, sed repellat.
-                  </div>
+                  <div></div>
+                  <div className='whitespace-pre-wrap'>{singleWork.desc}</div>
                 </div>
               </div>
-              <div className='flex gap-3 flex-wrap'>
-                {singleWork.tags?.map(singleTag => (
-                  <TagButton
-                    key={singleTag}
-                    className='bg-brand'
-                  >
+              <div className='flex flex-wrap gap-3'>
+                {singleWork.tags?.map((singleTag) => (
+                  <TagButton key={singleTag} className='bg-brand'>
                     {singleTag}
                   </TagButton>
                 ))}
               </div>
+              <EditButton
+                className='absolute'
+                onPress={handleOnPress('Edit', singleWork.id)}
+                value={ModalTypeEnum.Work_Exp}
+              />
             </div>
           ))}
         </div>
       </section>
-      <section className='relative flex flex-col pb-10'>
-        <EditButton
-          className='relative ml-auto'
-          onPress={onOpen}
-          value={ModalTypeEnum.Education}
-        />
+      {/* <section className='relative flex flex-col pb-10'>
         <div className={cn(
           section_padding,
           'flex flex-col gap-10'
@@ -268,38 +338,50 @@ const Candidate: FC<Props & ISessionValue> = ({ candidate, session }) => {
             section_title
           )}>
             Education
+
+            <AddButton
+              className='absolute'
+              value={ModalTypeEnum.Education}
+              onPress={handleOnPress('Add')}
+            />
           </div>
-          {candidate.education.school.map(singleEdu => (
-            <div key={singleEdu.name} className='flex flex-col gap-5'>
-              <div key={singleEdu.name} className='flex gap-5'>
+          {candidate.profile?.educations.map(singleEdu => (
+            <div key={singleEdu.id} className='flex flex-col gap-5'>
+              <div className='flex gap-5'>
                 <Avatar
-                  className={cn(
-                    avatar_size_company_school
-                  )}
-                  src={singleEdu.schoolImgURL}
+                  name={singleEdu.schoolName}
+                  src={singleEdu.schoolImg || ''}
+                  classNames={{
+                    base: cn(experience_avatar_style),
+                    name: 'text-2xl md:text-6xl font-bold'
+                  }}
                 />
                 <div className='flex flex-col gap-2'>
                   <div className='text-4xl font-bold italic'>
-                    {singleEdu.name}
+                    {singleEdu.schoolName}
                   </div>
                   <div className='text-base font-bold italic'>
                     {singleEdu.degree}
                     <br />
-                    {singleEdu.time}
+                    {singleEdu.startYear.toString().substring(0, 10).replaceAll('-', '/')} -{' '}
+                    {singleEdu.endYear?.toString().substring(0, 10).replaceAll('-', '/')}
                   </div>
                   <div>
                   </div>
-                  <div>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit, unde explicabo praesentium laborum distinctio facere cumque a vitae ut, quam error fugiat, dolorum vero. Incidunt ipsam architecto perspiciatis, temporibus animi maiores? Sunt sapiente dolorum voluptatem, blanditiis omnis ad perspiciatis tempora fugiat eos amet neque vero iure facilis atque, sed repellat.
+                  <div className='whitespace-pre-wrap'>
+                    {singleEdu.desc}
                   </div>
                 </div>
               </div>
+              <EditButton
+                className='absolute'
+                value={ModalTypeEnum.Education}
+                onPress={handleOnPress('Edit', singleEdu.id)}
+              />
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
     </>
   );
 };
-
-export default withAuth(Candidate);

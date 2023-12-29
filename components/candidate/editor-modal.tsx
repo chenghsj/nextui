@@ -1,3 +1,5 @@
+// not being used
+
 'use client';
 
 import React, { useState, Key, ReactNode } from 'react';
@@ -14,6 +16,7 @@ import {
 
 import { WebcamModalBody } from './webcam-modal-body';
 import { UploadModalBody } from './upload-modal-body';
+import { useModalDisclosureContext } from '@/providers/modal-disclosure-provider';
 
 type Props = {
   children?: ReactNode;
@@ -41,7 +44,8 @@ const tabs: TabProps[] = [
   },
 ];
 
-export function EditorModal({ isOpen, onOpenChange }: Props) {
+export function EditorModal({ }: Props) {
+  const { isOpen, onOpenChange } = useModalDisclosureContext();
   const [modalBodyType, setModalBodyType] = useState<ModalBodyTypeEnum>(
     ModalBodyTypeEnum.Upload
   );

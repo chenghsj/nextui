@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  // directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @unique
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  username      String?      @unique
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  role          String?
+  createdAt     DateTime     @default(now())
+  accounts      Account[]
+  sessions      Session[]
+  profile       UserProfile?
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model UserProfile {
+  id              String           @id @default(cuid())
+  fullName        String?
+  firstName       String?
+  lastName        String?
+  dateOfBirth     DateTime?
+  coverURL        String?
+  bio             String?
+  tags            String[]
+  updatedAt       DateTime?        @updatedAt
+  workExperiences WorkExperience[]
+  educations      Education[]
+  videoResumes    VideoResume[]
+  userId          String           @unique
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WorkExperience {
+  id            Int         @id @default(autoincrement())
+  order         Int         @default(autoincrement())
+  company       String
+  companyImg    String?
+  position      String
+  startDate     DateTime    @db.Date
+  endDate       DateTime?   @db.Date
+  currentJob    Boolean
+  desc          String?
+  workType      String?
+  tags          String[]
+  updatedAt     DateTime?   @updatedAt
+  userProfileId String
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+}
+
+model Education {
+  id            Int         @id @default(autoincrement())
+  order         Int         @default(autoincrement())
+  desc          String?
+  schoolImg     String?
+  degree        String?
+  schoolName    String
+  department    String?
+  startYear     DateTime    @db.Date
+  endYear       DateTime?   @db.Date
+  updatedAt     DateTime?   @updatedAt
+  userProfileId String
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+}
+
+model VideoResume {
+  id            Int         @id @default(autoincrement())
+  order         Int         @default(autoincrement())
+  title         String?
+  desc          String?
+  url           String?
+  tags          String[]
+  updatedAt     DateTime?   @updatedAt
+  userProfileId String
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+}

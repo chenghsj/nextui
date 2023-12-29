@@ -1,6 +1,6 @@
 import { FilePath } from 'tailwindcss/types/config';
 
-export interface IRecordedVideo {
+export interface RecordedVideotype {
   id: string;
   name: string;
   url: FilePath;

@@ -1,3 +1,5 @@
+// not being used
+
 'use client';
 
 import React, {
@@ -27,7 +29,7 @@ import Countdown, { CountdownRenderProps } from 'react-countdown';
 import Webcam from 'react-webcam';
 import ReactPlayer from 'react-player';
 
-import { IRecordedVideo } from '@/types/candidate-modal/webcam-modal';
+import { RecordedVideotype } from '@/types/candidate-modal/webcam-modal';
 import { NoPhotography, PhotoCamera } from '@/components/icons';
 import { PressEvent } from '@react-types/shared';
 
@@ -51,37 +53,7 @@ const ButtonContent = {
   ),
 };
 
-const recordedVideos: IRecordedVideo[] = [
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/sample-video.mp4',
-  },
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/sample-video.mp4',
-  },
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/TabMenuNodeDemo.mp4',
-  },
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/sample-video.mp4',
-  },
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/sample-video.mp4',
-  },
-  {
-    id: '1',
-    name: '1',
-    url: '/assets/sample-video.mp4',
-  },
+const recordedVideos: RecordedVideotype[] = [
   {
     id: '1',
     name: '1',
@@ -126,7 +98,7 @@ export function WebcamModalBody({ }: Props) {
   };
 
   const handleRecordedVideoPress =
-    (recordedVideo: IRecordedVideo) => (e: PressEvent) => {
+    (recordedVideo: RecordedVideotype) => (e: PressEvent) => {
       setReplaceWebcamUrl(recordedVideo.url);
       setIsWebcamEnable(false);
     };
@@ -238,7 +210,7 @@ export function WebcamModalBody({ }: Props) {
                 variant='bordered'
                 disallowEmptySelection
                 labelPlacement='outside-left'
-                selectedKeys={deviceId}
+                // selectedKeys={deviceId}
                 onSelectionChange={setDeviceId}
               >
                 {devices.map((singleDevice) => (

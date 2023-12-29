@@ -1,60 +1,22 @@
-type IHomeAccordion = {
+type HomeAccordiontype = {
   id: number;
   title: string;
   description: string;
 };
 
-type IHomeVideo = {
+type HomeVideoType = {
   id: number;
   url: string;
   title: string;
   description: string;
 };
 
-type IHomePage = {
-  accordions: IHomeAccordion[];
-  videos: IHomeVideo[];
+type HomePageType = {
+  accordions: HomeAccordiontype[];
+  videos: HomeVideoType[];
 };
 
-type ICandidatePage = {
-  user: {
-    id: number;
-    firstName: string;
-    lastName: string;
-    imgURL: string;
-    tags?: string[];
-  };
-  videos: {
-    id: number;
-    title: string;
-    created: number;
-    views: number;
-    url: string;
-    tags?: string[];
-    applications: number;
-  }[];
-  experience: {
-    work: {
-      company: string;
-      companyImgURL: string;
-      position: string;
-      time: string;
-      description: string;
-      tags?: string[];
-    }[];
-  };
-  education: {
-    school: {
-      name: string;
-      schoolImgURL: string;
-      degree: string;
-      time: string;
-      description: string;
-    }[];
-  };
-};
-
-type IDB = {
-  home: IHomePage;
-  candidate: ICandidatePage;
+type DBType = {
+  home: HomePageType;
+  candidate: CandidatePageType;
 };

@@ -4,10 +4,13 @@ import { useRouter } from 'next/navigation';
 import { SessionContextValue, useSession } from 'next-auth/react';
 import { PickAndRename } from '@/types';
 
-export type ISessionValue = PickAndRename<SessionContextValue, { data: 'session'; }>;
+export type SessionValueType = PickAndRename<
+  SessionContextValue,
+  { data: 'session' }
+>;
 
 export const withAuth = <P extends {}>(
-  Component: React.ComponentType<P & ISessionValue>
+  Component: React.ComponentType<P & SessionValueType>
 ): React.FC<P> => {
   const Auth: React.FC<P> = (props) => {
     const router = useRouter();
