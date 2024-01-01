@@ -134,19 +134,19 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
 
   return (
     <>
-      <ModalContentProvider
-        formInitialValues={formInitialValues}
-        mode={mode}
-        modalType={modaltype}
-        candidate={candidate}
+      <Modal
+        className='h-[80%]'
+        radius='sm'
+        size='4xl'
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        hideCloseButton
       >
-        <Modal
-          className='h-[80%]'
-          radius='sm'
-          size='4xl'
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          hideCloseButton
+        <ModalContentProvider
+          formInitialValues={formInitialValues}
+          mode={mode}
+          modalType={modaltype}
+          candidate={candidate}
         >
           <ModalContent>
             <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
@@ -154,8 +154,8 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
             </ModalHeader>
             <form className='h-[90%] sm:h-[85%]'>{editModal}</form>
           </ModalContent>
-        </Modal>
-      </ModalContentProvider>
+        </ModalContentProvider>
+      </Modal>
       {/* about */}
       <section className='relative top-0 w-full pb-10'>
         <EditButton

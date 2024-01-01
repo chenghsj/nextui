@@ -25,6 +25,7 @@ const ProfileCoverModal = (props: Props) => {
   const { setValue, register, watch, control } = methods;
 
   const [fileUrl, setFileUrl] = useState('');
+  const [isExceedLimit, setIsExceedLimit] = useState(false);
   const imgInputRef = useRef<HTMLInputElement>(null);
 
   const file = watch('file');
@@ -32,6 +33,11 @@ const ProfileCoverModal = (props: Props) => {
   const handleUploadCover = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target && e.target.files) {
       const file = e.target.files[0];
+      console.log((file.size / (1024 * 1024)).toFixed(2));
+      if ((file.size / (1024 * 1024)) >= 2) {
+        setIsExceedLimit(true);
+        return;
+      }
       setValue('file', file, { shouldDirty: true });
       setFileUrl(window.URL.createObjectURL(file));
     }
@@ -96,7 +102,7 @@ const ProfileCoverModal = (props: Props) => {
                   src={fileUrl}
                 />
               ) : (
-                <p className='text-3xl font-bold'>新增相片</p>
+                <p className='text-3xl font-bold'>{isExceedLimit ? 'The maximum image size is 2MB' : 'Add Cover'}</p>
               )}
             </Button>
           </Tooltip>
@@ -110,6 +116,7 @@ const ProfileCoverModal = (props: Props) => {
                   className='hidden'
                   ref={imgInputRef}
                   type="file"
+                  accept='image/*'
                   onChange={handleUploadCover}
                 />
               );

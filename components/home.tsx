@@ -13,6 +13,25 @@ import {
 } from '@nextui-org/react';
 import cn from '@/utils/cn';
 
+type HomeAccordiontype = {
+  id: number;
+  title: string;
+  description: string;
+};
+
+type HomeVideoType = {
+  id: number;
+  url: string;
+  title: string;
+  description: string;
+};
+
+type HomePageType = {
+  accordions: HomeAccordiontype[];
+  videos: HomeVideoType[];
+};
+
+
 const section_padding = 'px-10 lg:px-40 xl:px-96 py-20';
 
 const section_height = 'h-[calc(100vh-(3.5)rem)] md:h-[calc(100vh-4rem)]';
