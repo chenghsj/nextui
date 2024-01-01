@@ -55,11 +55,6 @@ export const Navbar = () => {
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
-                // className={clsx(
-                // 	linkStyles({ color: "foreground" }),
-                // 	"data-[active=true]:text-primary data-[active=true]:font-medium"
-                // )}
-                // color="foreground"
                 className='font-bold active:text-gray_l2'
                 href={item.href}
               >
@@ -156,7 +151,7 @@ export const Navbar = () => {
           'absolute left-0 top-[3.5rem] w-screen list-none bg-white opacity-95 transition-height md:top-[5rem]',
           `${isMenuOpen ? `h-[100dvh]` : 'h-0'}`
         )}
-      ></div>
+      />
       <div
         className={cn(
           'absolute top-[4rem] mx-4 mt-2 flex w-screen flex-col gap-2 md:top-[5.5rem]',
@@ -166,12 +161,9 @@ export const Navbar = () => {
         {siteConfig.navMenuItems.map((item, index) => (
           <Link
             key={`${item}-${index}`}
-            color={
-              index === 2
-                ? 'primary'
-                : index === siteConfig.navMenuItems.length - 1
-                  ? 'danger'
-                  : 'foreground'
+            color={index === siteConfig.navMenuItems.length - 1
+              ? 'danger'
+              : 'primary'
             }
             href='#'
             size='lg'

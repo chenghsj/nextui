@@ -8,6 +8,7 @@ export async function PUT(req: Request, res: Response) {
   const body: WorkExperienceWithUserId = await req.json();
 
   const { userId, userProfileId, id, startDate, endDate, ...rest } = body;
+
   try {
     const updatedWorkExp = await prisma.workExperience.update({
       where: {

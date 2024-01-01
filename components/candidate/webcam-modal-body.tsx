@@ -29,9 +29,16 @@ import Countdown, { CountdownRenderProps } from 'react-countdown';
 import Webcam from 'react-webcam';
 import ReactPlayer from 'react-player';
 
-import { RecordedVideotype } from '@/types/candidate-modal/webcam-modal';
 import { NoPhotography, PhotoCamera } from '@/components/icons';
 import { PressEvent } from '@react-types/shared';
+import { FilePath } from 'tailwindcss/types/config';
+
+interface RecordedVideotype {
+  id: string;
+  name: string;
+  url: FilePath;
+  [k: string]: string;
+}
 
 type Props = {
   children?: ReactNode;
