@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ModalBody, Textarea, Input, Checkbox } from '@nextui-org/react';
+import { ModalBody, Textarea, Input, Checkbox, Select, SelectItem } from '@nextui-org/react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 
 import cn from '@/utils/cn';
@@ -10,6 +10,11 @@ import TagsInput from './tags-input';
 import { input_style } from './profile-modal';
 import { WorkExperience } from '@prisma/client';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
+
+enum WorkTypeEnum {
+  FullTime = 'Full-time',
+  PartTime = 'Part-time',
+}
 
 type WorkExpTypeModalFields = WorkExperience & {
   tag: string;
@@ -80,17 +85,32 @@ const EducationModal = (props: Props) => {
                 errorMessage: 'text-base',
               }}
             />
-            <Input
+            <Select
               variant='bordered'
               radius='sm'
               label='Work Type'
               placeholder=' '
               labelPlacement='outside'
-              value={watch('workType') || ''}
+              defaultSelectedKeys={[watch('workType') || 'Full-time']}
               {...register('workType')}
               errorMessage={errors.workType?.message}
-              classNames={input_style}
-            />
+              classNames={{
+                label: input_style.label,
+                mainWrapper: cn(
+                  input_style.inputWrapper,
+                  'h-[51px]'
+                ),
+                trigger: 'h-full',
+                value: input_style.input,
+                helperWrapper: input_style.helperWrapper,
+              }}
+            >
+              {Object.entries(WorkTypeEnum).map(([key, value]) => (
+                <SelectItem key={value} value={value}>
+                  {value}
+                </SelectItem>
+              ))}
+            </Select>
           </div>
           <div>
             <Textarea

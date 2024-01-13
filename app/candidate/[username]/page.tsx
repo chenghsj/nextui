@@ -10,7 +10,6 @@ type Props = {};
 async function fetchData<T>(): Promise<T> {
   const res = await fetch(getURL('/api/candidate'), {
     cache: 'no-cache',
-    // handle getServerSession return null error
     headers: new Headers(headers())
   });
   return res.json() as Promise<T>;
