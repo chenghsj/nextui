@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Button, Input } from '@nextui-org/react';
 import { PressEvent, KeyboardEvent } from '@react-types/shared';
@@ -16,7 +16,8 @@ type TagsInputType = { name: string; tag: string; tags: string[]; };
 
 const maxTagListLength = 6;
 
-const TagsInput = (props: Props) => {
+const TagsInput = ({ }: Props) => {
+  const tagListRef = useRef<null | HTMLDivElement>(null);
 
   const {
     setValue,
@@ -40,6 +41,10 @@ const TagsInput = (props: Props) => {
       setValue('tags', [...tagList, hashedTag], { shouldDirty: true });
     }
     setValue('tag', '');
+
+    setTimeout(() => {
+      tagListRef.current?.scrollIntoView();
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -85,7 +90,7 @@ const TagsInput = (props: Props) => {
           onPress={handleArrowClick}
         />
       </div>
-      <div className='flex flex-wrap gap-3 md:gap-5'>
+      <div ref={tagListRef} className='flex flex-wrap gap-3 md:gap-5'>
         {tagList.map((singleTag, index) => (
           <TagButton
             key={singleTag}

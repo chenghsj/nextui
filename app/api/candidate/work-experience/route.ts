@@ -1,8 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { WorkExperience } from '@prisma/client';
-import { UserProfile, WorkExperienceWithUserId } from '@/lib/types';
+import { WorkExperienceWithUserId } from '@/lib/types';
 
 export async function PUT(req: Request, res: Response) {
   const body: WorkExperienceWithUserId = await req.json();

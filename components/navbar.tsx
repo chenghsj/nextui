@@ -30,7 +30,6 @@ import cn from '@/utils/cn';
 
 export const Navbar = () => {
   const { data: session } = useSession();
-  const size = useWindowSize();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

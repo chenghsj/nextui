@@ -1,3 +1,4 @@
+// not being used
 'use server';
 
 import prisma from '@/lib/prisma';
@@ -23,28 +24,39 @@ export async function updateProfile(formData: FormData) {
   console.log(values);
   let updateUser = {};
 
-  const { userId, workExperiences, fullName, ...rest } = values;
+  const {
+    userId,
+    workExperiences,
+    videoResumes,
+    educations,
+    fullName,
+    ...rest
+  } = values;
 
-  updateUser = await prisma.user.update({
-    where: {
-      id: userId as string,
-    },
-    data: {
-      profile: {
-        update: {
-          data: {
-            fullName: `${rest.firstName} ${rest.lastName}`,
-            ...rest,
+  try {
+    updateUser = await prisma.user.update({
+      where: {
+        id: userId as string,
+      },
+      data: {
+        profile: {
+          update: {
+            data: {
+              fullName: `${rest.firstName} ${rest.lastName}`,
+              ...rest,
+            },
           },
         },
       },
-    },
-    include: {
-      profile: true,
-    },
-  });
+      include: {
+        profile: true,
+      },
+    });
 
-  console.log(updateUser);
-  revalidatePath('candidate/[id]', 'layout');
-  return updateUser;
+    console.log(updateUser);
+    revalidatePath('/candidate/[username]', 'layout');
+    return updateUser;
+  } catch (error) {
+    console.log(error);
+  }
 }

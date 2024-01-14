@@ -11,10 +11,10 @@ import {
 import { FormProvider, useForm } from 'react-hook-form';
 import { UserProfile } from '@prisma/client';
 
-import { useModalContentContext } from '@/providers/candidate/modal-content-provider';
 import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
+import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 
 type Props = {};
 
@@ -52,11 +52,11 @@ export const tag_input_style: SlotsToClasses<InputSlots> = {
 };
 
 const CandidateModal: FC<Props> = () => {
-  const { formInitialValues: initialValues } = useModalContentContext();
+  const { candidate } = useCandidateModalStore();
 
   const methods = useForm<ProfileModalFieldsType>({
     mode: 'all',
-    defaultValues: initialValues,
+    defaultValues: candidate.profile || {},
   });
 
   const {

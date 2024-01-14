@@ -1,22 +1,20 @@
 'use client';
 
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import _ from 'lodash';
 import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import { Avatar, Image, Modal, ModalContent, ModalHeader } from '@nextui-org/react';
+import { Avatar, Image } from '@nextui-org/react';
 import { PressEvent } from '@react-types/shared';
 import cn from '@/utils/cn';
 
 import { AddButton, EditButton, TagButton } from '../custom-button';
-import { ModalContentProvider, ModalModeEnum } from '@/providers/candidate/modal-content-provider';
 import { Education, WorkExperience } from '@prisma/client';
 import { UserWithProfile } from '@/lib/types';
-import { useIsClient } from 'usehooks-ts';
 import { useModalDisclosureContext } from '@/providers/modal-disclosure-provider';
-import ProfileCoverModal from './modal/profile-cover-modal';
-import ProfileModal from './modal/profile-modal';
-import WorkExpModal from './modal/work-exp-modal';
+
+import CandidateFormModal from './modal/candidate-form-modal';
+import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 
 dayjs.extend(duration);
 
@@ -59,29 +57,26 @@ const experience_avatar_style = cn(
   'min-w-unit-16 min-h-unit-16 md:min-w-[120px] md:min-h-[120px]'
 );
 
-// TODO: add submitting state
 // TODO: form modal validation using valibot resolver?
 
 export const Candidate: FC<CandidateProps> = ({ candidate }) => {
-  const isClient = useIsClient();
-  const { isOpen, onOpen, onOpenChange } = useModalDisclosureContext();
+  const { onOpen } = useModalDisclosureContext();
+  const { setCandidate, setModalMode, setModalType, setWorkExperience, setEducation } = useCandidateModalStore();
 
-  const [workExp, setWorkExp] = useState<WorkExperience>({} as WorkExperience);
-  const [education, setEducation] = useState<Education>({} as Education);
-  const [modaltype, setModalType] = useState<`${ModalTypeEnum}`>('profile');
-  const [mode, setMode] = useState<`${ModalModeEnum}`>('Add');
+  useEffect(() => {
+    setCandidate(candidate);
+  }, [candidate]);
 
   const handleOnPress: ProfilePressEvent =
     (...args) =>
       (e: PressEvent) => {
         const modalType = (e.target as HTMLButtonElement)
           .value as `${ModalTypeEnum}`;
-        setMode(args[0]);
 
         if (args[0] === 'Edit') {
           if (
             modalType === 'work-experience' && candidate.profile?.workExperiences) {
-            setWorkExp(
+            setWorkExperience(
               candidate.profile?.workExperiences.filter(
                 (singleWork) => singleWork.id === args[1]
               )[0]
@@ -92,73 +87,24 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
             );
           }
         } else {
-          setWorkExp({} as WorkExperience);
-          setEducation({} as Education);
+          if (modalType === 'work-experience') {
+            setWorkExperience({} as WorkExperience);
+          } else if (modalType === 'education') {
+            setEducation({} as Education);
+          }
         }
+        setModalMode(args[0]);
         setModalType(modalType);
         onOpen();
       };
 
-  let editModal: ReactElement;
-  let formInitialValues = {};
-  let title = '';
-
-  switch (modaltype) {
-    case 'profile-cover':
-      title = 'Cover';
-      editModal = <ProfileCoverModal />;
-      break;
-    case 'video-resume':
-      title = 'Video Resume';
-      editModal = <></>;
-      break;
-    case 'profile':
-      title = 'Profile';
-      formInitialValues = candidate.profile!;
-      editModal = <ProfileModal />;
-      break;
-    case 'work-experience':
-      title = 'Work Experience';
-      formInitialValues = workExp;
-      editModal = <WorkExpModal />;
-      break;
-    case 'education':
-      title = 'Education';
-      formInitialValues = education;
-      editModal = <WorkExpModal />;
-      break;
-    default:
-      editModal = <></>;
-      break;
-  }
-
   return (
-    <>
-      <Modal
-        className='h-[80%]'
-        radius='sm'
-        size='4xl'
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        hideCloseButton
-      >
-        <ModalContentProvider
-          formInitialValues={formInitialValues}
-          mode={mode}
-          modalType={modaltype}
-          candidate={candidate}
-        >
-          <ModalContent>
-            <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
-              {mode} {title}
-            </ModalHeader>
-            <form className='h-[90%] sm:h-[85%]'>{editModal}</form>
-          </ModalContent>
-        </ModalContentProvider>
-      </Modal>
+    <div aria-label='candidate page'>
+      <CandidateFormModal />
       {/* about */}
       <section className='relative top-0 w-full pb-10'>
         <EditButton
+          aria-label='edit cover'
           className='mt-10'
           value={ModalTypeEnum.Profile_Cover}
           onPress={handleOnPress('Edit', candidate.id)}
@@ -184,6 +130,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
           )}
         >
           <EditButton
+            aria-label='edit profile'
             className='mt-10'
             value={ModalTypeEnum.Profile}
             onPress={handleOnPress('Edit', candidate.id)}
@@ -217,6 +164,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
         )}>
           Video Resume
           <EditButton
+            aria-label='edit video'
             className='absolute'
             value={ModalTypeEnum.Video_Resume}
             onPress={handleOnPress('Edit', candidate.profile?.id || '')}
@@ -276,11 +224,12 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
           ))}
         </div>
       </section> */}
-      <section className='relative flex flex-col pb-10'>
+      <section aria-label='work experience' className='relative flex flex-col pb-10'>
         <div className={cn(section_padding, 'flex flex-col gap-10')}>
           <div className={cn(section_title)}>
             Work Experience
             <AddButton
+              aria-label='add work experience'
               className='absolute'
               value={ModalTypeEnum.Work_Exp}
               onPress={handleOnPress('Add')}
@@ -309,8 +258,8 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                       ? 'Now'
                       : singleWork.endDate?.toString().substring(0, 10).replaceAll('-', '/')}
                   </div>
-                  <div></div>
-                  <div className='whitespace-pre-wrap'>{singleWork.desc}</div>
+                  <div className='hidden md:block'></div>
+                  <div className='whitespace-pre-wrap break-all'>{singleWork.desc}</div>
                 </div>
               </div>
               <div className='flex flex-wrap gap-3'>
@@ -321,6 +270,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                 ))}
               </div>
               <EditButton
+                aria-label='edit work experience'
                 className='absolute'
                 onPress={handleOnPress('Edit', singleWork.id)}
                 value={ModalTypeEnum.Work_Exp}
@@ -340,6 +290,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
             Education
 
             <AddButton
+              aria-label='add education'
               className='absolute'
               value={ModalTypeEnum.Education}
               onPress={handleOnPress('Add')}
@@ -374,6 +325,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                 </div>
               </div>
               <EditButton
+                aria-label='edit education'
                 className='absolute'
                 value={ModalTypeEnum.Education}
                 onPress={handleOnPress('Edit', singleEdu.id)}
@@ -382,6 +334,6 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
           ))}
         </div>
       </section> */}
-    </>
+    </div>
   );
 };

@@ -1,5 +1,17 @@
+const { hostname } = require('os');
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname:
+          'title-video-resume-upload-test.s3.ap-northeast-1.amazonaws.com',
+      },
+    ],
+  },
+};
 
 const withPWA = require('next-pwa')({
   dest: 'public',

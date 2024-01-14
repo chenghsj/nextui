@@ -1,3 +1,4 @@
+// not being used
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -6,7 +7,7 @@ import { PickAndRename } from '@/types';
 
 export type SessionValueType = PickAndRename<
   SessionContextValue,
-  { data: 'session' }
+  { data: 'session'; }
 >;
 
 export const withAuth = <P extends {}>(

@@ -1,3 +1,4 @@
+// not being used
 'use client';
 
 import { FC, ReactNode, createContext, useContext } from 'react';
@@ -45,28 +46,3 @@ export const ModalContentProvider: FC<
     </ModalContentContext.Provider>
   );
 };
-
-// type ModalState = {
-//   modalType: `${ModalTypeEnum}`;
-//   mode: `${ModalModeEnum}`;
-//   workExp?: WorkExpType;
-//   education?: EducationType;
-// };
-
-// type ModalAction = {
-//   updateModalType: (modalType: ModalState['modalType']) => void;
-//   updateMode: (mode: ModalState['mode']) => void;
-//   updateWorkExp: (workExp: ModalState['workExp']) => void;
-//   updateEducation: (education: ModalState['education']) => void;
-// };
-
-// const useModalStore = create<ModalState & ModalAction>((set) => ({
-//   modalType: ModalTypeEnum.Profile,
-//   mode: ModalModeEnum.Add,
-//   workExp: undefined,
-//   education: undefined,
-//   updateModalType: (modalType) => set(() => ({ modalType })),
-//   updateMode: (mode) => set(() => ({ mode })),
-//   updateWorkExp: (workExp) => set(() => ({ workExp })),
-//   updateEducation: (education) => set(() => ({ education })),
-// }));

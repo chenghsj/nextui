@@ -59,7 +59,7 @@ async function uploadFileToS3(file: Buffer, fileName: string, userId: string) {
   return { fileName, userProfile };
 }
 
-async function handler(req: NextRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
   try {
     const formData = await req.formData();
     const file = formData.get('file') as File;
@@ -79,4 +79,40 @@ async function handler(req: NextRequest, res: NextApiResponse) {
   }
 }
 
-export { handler as GET, handler as POST };
+export async function DELETE(req: NextRequest, res: NextResponse) {
+  const formData = await req.formData();
+  const userId = formData.get('userId') as string;
+  try {
+    const userProfileFind = await prisma.userProfile.findFirst({
+      where: {
+        userId,
+      },
+    });
+
+    if (userProfileFind?.coverURL) {
+      const deleteParams: DeleteObjectCommandInput = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: '~' + userProfileFind?.coverURL.split('~')[1],
+      };
+      const deleteCommand = new DeleteObjectCommand(deleteParams);
+      await s3.send(deleteCommand);
+    } else {
+      return NextResponse.json({
+        success: true,
+        message: 'There is no cover should be deleted.',
+      });
+    }
+    const userProfile = await prisma.userProfile.update({
+      where: {
+        userId,
+      },
+      data: {
+        coverURL: '',
+      },
+    });
+
+    return NextResponse.json({ success: true, userProfile });
+  } catch (error) {
+    return NextResponse.json({ error });
+  }
+}

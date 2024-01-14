@@ -8,7 +8,7 @@ import { PressEvent } from '@react-types/shared';
 
 import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
-import { useModalContentContext } from '@/providers/candidate/modal-content-provider';
+import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 
 type Props = {};
 
@@ -19,25 +19,27 @@ type FormValues = {
 };
 
 const ProfileCoverModal = (props: Props) => {
-  const { candidate } = useModalContentContext();
+  const { candidate } = useCandidateModalStore();
   const methods = useForm<FormValues>();
 
-  const { setValue, register, watch, control } = methods;
+  const { setValue, watch, control } = methods;
 
-  const [fileUrl, setFileUrl] = useState('');
+  const [fileUrl, setFileUrl] = useState(candidate.profile?.coverURL || '');
   const [isExceedLimit, setIsExceedLimit] = useState(false);
   const imgInputRef = useRef<HTMLInputElement>(null);
 
   const file = watch('file');
 
   const handleUploadCover = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target && e.target.files) {
+    if (e.target && e.target.files?.[0]) {
       const file = e.target.files[0];
-      console.log((file.size / (1024 * 1024)).toFixed(2));
+
       if ((file.size / (1024 * 1024)) >= 2) {
+        setFileUrl(window.URL.createObjectURL(file));
         setIsExceedLimit(true);
         return;
       }
+      setIsExceedLimit(false);
       setValue('file', file, { shouldDirty: true });
       setFileUrl(window.URL.createObjectURL(file));
     }
@@ -67,6 +69,24 @@ const ProfileCoverModal = (props: Props) => {
     }
   };
 
+  const handleDeleteFile = async () => {
+    const formData = new FormData();
+    formData.append('userId', candidate.id);
+
+    try {
+      const response = await fetch('/api/candidate/upload-cover', {
+        method: 'DELETE',
+        body: formData,
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
   return (
     <FormProvider {...methods}>
       <ModalBody className={cn('h-[80%] overflow-auto px-5 py-0 md:px-10')}>
@@ -90,19 +110,29 @@ const ProfileCoverModal = (props: Props) => {
           >
             <Button
               className='h-full w-full data-[pressed=true]:transform-none'
-              // disableAnimation
               onPress={handleUploadPress}
             >
               {fileUrl ? (
-                <Image
-                  fill
-                  // layout='full'
-                  objectFit='cover'
-                  alt='profile cover preview'
-                  src={fileUrl}
-                />
+                <>
+                  {isExceedLimit && (
+                    <p className='text-3xl font-bold'>
+                      The maximum image size is 2MB
+                    </p>
+                  )}
+                  <Image
+                    placeholder='blur'
+                    blurDataURL={(fileUrl)}
+                    fill
+                    objectFit='cover'
+                    alt='profile cover preview'
+                    src={fileUrl}
+                    className={cn(
+                      { 'opacity-30': isExceedLimit }
+                    )}
+                  />
+                </>
               ) : (
-                <p className='text-3xl font-bold'>{isExceedLimit ? 'The maximum image size is 2MB' : 'Add Cover'}</p>
+                <p className='text-3xl font-bold'>Add Cover</p>
               )}
             </Button>
           </Tooltip>
@@ -124,7 +154,7 @@ const ProfileCoverModal = (props: Props) => {
           />
         </div>
       </ModalBody>
-      <ModalApplyButtons handleSubmitFile={handleSubmitFile} />
+      <ModalApplyButtons handleSubmitFile={handleSubmitFile} handleDeleteFile={handleDeleteFile} />
     </FormProvider>
   );
 };

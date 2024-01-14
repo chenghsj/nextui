@@ -8,8 +8,8 @@ import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
 import { input_style } from './profile-modal';
-import { useModalContentContext } from '@/providers/candidate/modal-content-provider';
 import { WorkExperience } from '@prisma/client';
+import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 
 type WorkExpTypeModalFields = WorkExperience & {
   tag: string;
@@ -18,12 +18,10 @@ type WorkExpTypeModalFields = WorkExperience & {
 type Props = {};
 
 const EducationModal = (props: Props) => {
-  const { formInitialValues: initailValues, mode } = useModalContentContext();
+  const { modalMode, education } = useCandidateModalStore();
   const methods = useForm<WorkExpTypeModalFields>({
     mode: 'all',
-    defaultValues: mode === 'Add' ? {
-      currentJob: false
-    } : initailValues,
+    defaultValues: education
   });
 
   const {
@@ -38,7 +36,7 @@ const EducationModal = (props: Props) => {
       <ModalBody
         className={cn(
           'overflow-auto px-5 py-0 md:px-10',
-          mode === 'Add' ? 'h-[85%] sm:h-[80%]' : 'h-[80%]'
+          modalMode === 'Add' ? 'h-[85%] sm:h-[80%]' : 'h-[80%]'
         )}
       >
         <div className='mt-10 flex flex-col gap-5'>
