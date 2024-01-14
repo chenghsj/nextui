@@ -66,7 +66,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
   useEffect(() => {
     setCandidate(candidate);
   }, [candidate]);
-  // test
+  // testabcd
   const handleOnPress: ProfilePressEvent =
     (...args) =>
       (e: PressEvent) => {
