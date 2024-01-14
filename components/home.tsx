@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import NextLink from 'next/link';
-import { Link } from '@nextui-org/link';
 import { ArrowRight } from '@/components/icons';
 import {
   Accordion,
@@ -30,7 +28,6 @@ type HomePageType = {
   accordions: HomeAccordiontype[];
   videos: HomeVideoType[];
 };
-
 
 const section_padding = 'px-10 lg:px-40 xl:px-96 py-20';
 

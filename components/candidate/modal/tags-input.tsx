@@ -12,11 +12,11 @@ import { tag_input_style } from './profile-modal';
 
 type Props = {};
 
-type TagsInputType = { name: string; tag: string; tags: string[]; };
+type TagsInputType = { name: string; tag: string; tags: string[] };
 
 const maxTagListLength = 6;
 
-const TagsInput = ({ }: Props) => {
+const TagsInput = ({}: Props) => {
   const tagListRef = useRef<null | HTMLDivElement>(null);
 
   const {

@@ -1,7 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { UserProfile } from '@/lib/types';
 import { NextApiResponse } from 'next';
-import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(req: NextRequest, res: NextApiResponse) {

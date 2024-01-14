@@ -35,9 +35,8 @@ export const useModalContentContext = () => {
 };
 
 export const ModalContentProvider: FC<
-  { children: ReactNode; } & ModalContentContextType
+  { children: ReactNode } & ModalContentContextType
 > = ({ children, mode, modalType, formInitialValues, candidate }) => {
-
   return (
     <ModalContentContext.Provider
       value={{ formInitialValues, mode, modalType, candidate }}

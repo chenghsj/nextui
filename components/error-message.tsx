@@ -5,11 +5,7 @@ type Props = {
 };
 
 function ErrorMessage({ children }: Props) {
-  return (
-    <div className='absolute text-sm'>
-      {children}
-    </div>
-  );
+  return <div className='absolute text-sm'>{children}</div>;
 }
 
 export default ErrorMessage;

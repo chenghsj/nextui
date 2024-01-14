@@ -9,7 +9,7 @@ import ReactPlayer from 'react-player';
 
 type Props = {};
 
-export function UploadModalBody({ }: Props) {
+export function UploadModalBody({}: Props) {
   const [video, setVideo] = useState<File>();
   const [videoURL, setVideoURL] = useState<string>('');
 

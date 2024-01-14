@@ -14,18 +14,15 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import { signOut, useSession } from 'next-auth/react';
-import { useWindowSize } from 'usehooks-ts';
 
 import { siteConfig } from '@/config/site';
 import NextLink from 'next/link';
 
 import { ThemeSwitch } from '@/components/theme-switch';
-import { GithubIcon } from '@/components/icons';
 
 import { Logo } from '@/components/icons';
 import { CustomButton } from './custom-button';
-import { useEffect, useState } from 'react';
-import { redirect } from 'next/navigation';
+import { useState } from 'react';
 import cn from '@/utils/cn';
 
 export const Navbar = () => {
@@ -160,9 +157,10 @@ export const Navbar = () => {
         {siteConfig.navMenuItems.map((item, index) => (
           <Link
             key={`${item}-${index}`}
-            color={index === siteConfig.navMenuItems.length - 1
-              ? 'danger'
-              : 'primary'
+            color={
+              index === siteConfig.navMenuItems.length - 1
+                ? 'danger'
+                : 'primary'
             }
             href='#'
             size='lg'

@@ -7,7 +7,7 @@ import { PickAndRename } from '@/types';
 
 export type SessionValueType = PickAndRename<
   SessionContextValue,
-  { data: 'session'; }
+  { data: 'session' }
 >;
 
 export const withAuth = <P extends {}>(

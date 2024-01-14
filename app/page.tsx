@@ -1,5 +1,4 @@
 import { Home } from '@/components/home';
-import getURL from '@/utils/get-url';
 import db from '@/data/db';
 
 export default async function HomePage() {

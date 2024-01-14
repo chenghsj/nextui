@@ -9,9 +9,7 @@ import React, {
   useState,
   Key,
   ReactNode,
-  EventHandler,
 } from 'react';
-import _ from 'lodash';
 import {
   ModalBody,
   Button,
@@ -21,7 +19,6 @@ import {
   Checkbox,
   Card,
   CardBody,
-  CardFooter,
   Skeleton,
   Switch,
 } from '@nextui-org/react';
@@ -29,7 +26,6 @@ import Countdown, { CountdownRenderProps } from 'react-countdown';
 import Webcam from 'react-webcam';
 import ReactPlayer from 'react-player';
 
-import { NoPhotography, PhotoCamera } from '@/components/icons';
 import { PressEvent } from '@react-types/shared';
 import { FilePath } from 'tailwindcss/types/config';
 
@@ -68,7 +64,7 @@ const recordedVideos: RecordedVideotype[] = [
   },
 ];
 
-export function WebcamModalBody({ }: Props) {
+export function WebcamModalBody({}: Props) {
   const [isWebcamEnable, setIsWebcamEnable] = useState<boolean>(false);
 
   const [deviceId, setDeviceId] = useState<Iterable<Key>>(new Set([]));
@@ -302,7 +298,7 @@ export function WebcamModalBody({ }: Props) {
                   ) : (
                     <>
                       {webcamRecordStatus ===
-                        WebcamRecordStatusEnum.Recording ? (
+                      WebcamRecordStatusEnum.Recording ? (
                         <ButtonContent.Recording />
                       ) : (
                         <ButtonContent.Start />

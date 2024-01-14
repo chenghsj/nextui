@@ -1,10 +1,10 @@
-import { screen, render, prettyDOM } from "@testing-library/react";
+import { screen, render } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { UserWithProfile } from "@/lib/types";
+import { UserWithProfile } from '@/lib/types';
 
-import { useModalDisclosureContext } from "@/providers/modal-disclosure-provider";
-import { useCandidateModalStore } from "@/hooks/candidate/use-candidate-modal-store";
-import { Candidate } from "../candidate";
+import { useModalDisclosureContext } from '@/providers/modal-disclosure-provider';
+import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
+import { Candidate } from '../candidate';
 
 const mockedCandidateData: UserWithProfile = {
   id: '1',
@@ -33,7 +33,10 @@ const mockedCandidateData: UserWithProfile = {
         companyImg: 'https://example.com/company.jpg',
         position: 'Software Engineer',
         workType: 'Full-time',
-        startDate: new Date('2020-01-01').toISOString().substring(0, 10).replaceAll('-', '/') as unknown as Date,
+        startDate: new Date('2020-01-01')
+          .toISOString()
+          .substring(0, 10)
+          .replaceAll('-', '/') as unknown as Date,
         currentJob: true,
         desc: 'I worked on a variety of projects',
         tags: ['React', 'Node.js'],
@@ -69,22 +72,26 @@ const mockUseDisclosureReturnValue = {
   onOpenChange: jest.fn(),
   isControlled: false,
   getButtonProps: jest.fn(),
-  getDisclosureProps: jest.fn()
+  getDisclosureProps: jest.fn(),
 };
 
 jest.mock('@/hooks/candidate/use-candidate-modal-store');
-const mockUseCandidateModalStore = useCandidateModalStore as jest.MockedFunction<typeof useCandidateModalStore>;
+const mockUseCandidateModalStore =
+  useCandidateModalStore as jest.MockedFunction<typeof useCandidateModalStore>;
 
 jest.mock('@/providers/modal-disclosure-provider.tsx');
-const mockUseModalDisclosureContext = useModalDisclosureContext as jest.MockedFunction<typeof useModalDisclosureContext>;
+const mockUseModalDisclosureContext =
+  useModalDisclosureContext as jest.MockedFunction<
+    typeof useModalDisclosureContext
+  >;
 
 // Error: Uncaught [Error: invariant expected app router to be mounted]
-jest.mock("next/navigation", () => ({
+jest.mock('next/navigation', () => ({
   useRouter() {
     return {
-      prefetch: () => null
+      prefetch: () => null,
     };
-  }
+  },
 }));
 
 beforeEach(() => {
@@ -103,18 +110,30 @@ beforeEach(() => {
 afterEach(() => jest.resetAllMocks());
 
 describe('Candidate content', () => {
-  it('should render cover section', () => { });
+  it('should render cover section', () => {});
 
   it('should render work experience section', async () => {
-    const workExperienceSection = screen.getByRole('region', { name: /work experience/i });
-    const workExperienceAddBtn = screen.getByRole('button', { name: /add work experience/i });
-    const workExperienceEditBtn = screen.getByRole('button', { name: /edit work experience/i });
+    const workExperienceSection = screen.getByRole('region', {
+      name: /work experience/i,
+    });
+    const workExperienceAddBtn = screen.getByRole('button', {
+      name: /add work experience/i,
+    });
+    const workExperienceEditBtn = screen.getByRole('button', {
+      name: /edit work experience/i,
+    });
 
     expect(workExperienceSection).toHaveTextContent('Work Experience');
-    expect(workExperienceSection).toHaveTextContent('I worked on a variety of projects');
-    expect(workExperienceSection).toHaveTextContent('Software Engineer | Full-time');
+    expect(workExperienceSection).toHaveTextContent(
+      'I worked on a variety of projects'
+    );
+    expect(workExperienceSection).toHaveTextContent(
+      'Software Engineer | Full-time'
+    );
     expect(workExperienceSection).toHaveTextContent('2020/01/01 - Now');
-    expect(workExperienceSection).toHaveTextContent('I worked on a variety of projects');
+    expect(workExperienceSection).toHaveTextContent(
+      'I worked on a variety of projects'
+    );
     expect(workExperienceAddBtn).toBeTruthy();
     expect(workExperienceEditBtn).toBeTruthy();
   });
@@ -138,13 +157,16 @@ describe('Candidate show modal', () => {
   });
 
   it('should show edit profile modal', async () => {
-    const profileEditButton = screen.getByRole('button', { name: /edit profile/i });
+    const profileEditButton = screen.getByRole('button', {
+      name: /edit profile/i,
+    });
     await user.click(profileEditButton);
-
   });
 
   it('should show edit work experience modal', async () => {
-    const workExperienceEditButton = screen.getByRole('button', { name: /edit work experience/i });
+    const workExperienceEditButton = screen.getByRole('button', {
+      name: /edit work experience/i,
+    });
     await user.click(workExperienceEditButton);
 
     const { setWorkExperience } = mockUseCandidateModalStore();
@@ -152,7 +174,9 @@ describe('Candidate show modal', () => {
   });
 
   it('should show add work experience modal', async () => {
-    const workExperienceAddButton = screen.getByRole('button', { name: /add work experience/i });
+    const workExperienceAddButton = screen.getByRole('button', {
+      name: /add work experience/i,
+    });
     await user.click(workExperienceAddButton);
 
     const { setWorkExperience } = mockUseCandidateModalStore();

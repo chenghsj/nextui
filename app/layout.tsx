@@ -65,7 +65,7 @@ export default async function RootLayout({ children }: RootLayoutType) {
         >
           <div className='flex min-h-screen flex-col justify-between'>
             <Navbar />
-            <main className='flex flex-col flex-1 w-full'>{children}</main>
+            <main className='flex w-full flex-1 flex-col'>{children}</main>
             <footer className='w-full bg-gray_b p-4 dark:bg-gray_l4 md:px-[120px] md:py-10'>
               <div className='flex items-center justify-between border-b-gray_l1 md:border-t-[0.5px] md:py-5'>
                 <div>

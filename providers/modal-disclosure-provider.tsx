@@ -6,8 +6,9 @@ import { useDisclosure } from '@nextui-org/react';
 
 type ModalDisclosureType = ReturnType<typeof useDisclosure>;
 
-export const ModalDisclosureContext =
-  createContext<ModalDisclosureType | null>(null);
+export const ModalDisclosureContext = createContext<ModalDisclosureType | null>(
+  null
+);
 
 export const useModalDisclosureContext = () => {
   const context = useContext(ModalDisclosureContext);
@@ -21,9 +22,9 @@ export const useModalDisclosureContext = () => {
   return context;
 };
 
-export const ModalDisclosureProvider: FC<
-  { children: ReactNode; }
-> = ({ children }) => {
+export const ModalDisclosureProvider: FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const disclosure = useDisclosure();
 
   return (

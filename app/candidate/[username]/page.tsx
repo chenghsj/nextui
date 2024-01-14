@@ -11,12 +11,12 @@ async function fetchData<T>(): Promise<T> {
   const res = await fetch(getURL('/api/candidate'), {
     cache: 'no-cache',
     // handle getServerSession return null error
-    headers: new Headers(headers())
+    headers: new Headers(headers()),
   });
   return res.json() as Promise<T>;
 }
 
-export default async function CandidatePage({ }: Props) {
+export default async function CandidatePage({}: Props) {
   const candidate = await fetchData<UserWithProfile>();
   console.log({ candidate });
 

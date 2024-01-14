@@ -41,7 +41,11 @@ const ModalApplyButtons: FC<ModalApplyButtonsProps> = ({
   }, [isSubmitting]);
 
   const { onClose } = useModalDisclosureContext();
-  const { modalMode, modalType, candidate: { profile } } = useCandidateModalStore();
+  const {
+    modalMode,
+    modalType,
+    candidate: { profile },
+  } = useCandidateModalStore();
 
   const onSubmit: SubmitHandler<FieldValues> = async () => {
     try {
@@ -49,7 +53,11 @@ const ModalApplyButtons: FC<ModalApplyButtonsProps> = ({
       if (modalType === 'profile') {
         values = { ...fp.omit(['tag'], getValues()), userId: profile?.userId };
       } else {
-        values = { ...fp.omit(['tag'], getValues()), userId: profile?.userId, userProfileId: profile?.id };
+        values = {
+          ...fp.omit(['tag'], getValues()),
+          userId: profile?.userId,
+          userProfileId: profile?.id,
+        };
       }
       console.log(values);
       const formData = new FormData();
@@ -101,7 +109,7 @@ const ModalApplyButtons: FC<ModalApplyButtonsProps> = ({
   return (
     <ModalFooter
       className={cn(
-        'md:py-7 sm:h-[15%] sm:px-5 md:px-10',
+        'sm:h-[15%] sm:px-5 md:px-10 md:py-7',
         'justify-between sm:flex sm:items-center',
         {
           'sm:justify-end': modalMode === 'Add' || modalType === 'profile',

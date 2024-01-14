@@ -3,7 +3,6 @@
 'use client';
 
 import React, { useState, Key, ReactNode } from 'react';
-import _ from 'lodash';
 import {
   Modal,
   ModalContent,
@@ -44,7 +43,7 @@ const tabs: TabProps[] = [
   },
 ];
 
-export function EditorModal({ }: Props) {
+export function EditorModal({}: Props) {
   const { isOpen, onOpenChange } = useModalDisclosureContext();
   const [modalBodyType, setModalBodyType] = useState<ModalBodyTypeEnum>(
     ModalBodyTypeEnum.Upload
@@ -83,7 +82,7 @@ export function EditorModal({ }: Props) {
       onClose={handleModalClose}
       isDismissable={false}
       shouldBlockScroll={false}
-    // disableAnimation
+      // disableAnimation
     >
       <ModalContent>
         {(onClose) => (

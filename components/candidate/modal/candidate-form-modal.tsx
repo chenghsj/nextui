@@ -45,13 +45,10 @@ export const getRenderedModal = (modalType: `${ModalTypeEnum}`) => {
   return { modal, title };
 };
 
-function CandidateFormModal({ }: Props) {
+function CandidateFormModal({}: Props) {
   const { isOpen, onOpenChange } = useModalDisclosureContext();
   const { isSubmitting } = useFormIsSubmittingStore();
-  const {
-    modalType,
-    modalMode,
-  } = useCandidateModalStore();
+  const { modalType, modalMode } = useCandidateModalStore();
 
   const { modal, title } = getRenderedModal(modalType);
 
@@ -67,16 +64,14 @@ function CandidateFormModal({ }: Props) {
     >
       <ModalContent>
         {isSubmitting && (
-          <div className='absolute flex bg-white dark:bg-gray_b opacity-75 w-full h-full z-50'>
+          <div className='absolute z-50 flex h-full w-full bg-white opacity-75 dark:bg-gray_b'>
             <Loading />
           </div>
         )}
         <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
           {modalMode} {title}
         </ModalHeader>
-        <form className='h-[90%] sm:h-[85%]'>
-          {modal}
-        </form>
+        <form className='h-[90%] sm:h-[85%]'>{modal}</form>
       </ModalContent>
     </Modal>
   );

@@ -21,7 +21,7 @@ const EducationModal = (props: Props) => {
   const { modalMode, education } = useCandidateModalStore();
   const methods = useForm<WorkExpTypeModalFields>({
     mode: 'all',
-    defaultValues: education
+    defaultValues: education,
   });
 
   const {

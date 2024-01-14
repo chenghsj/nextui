@@ -34,7 +34,7 @@ const ProfileCoverModal = (props: Props) => {
     if (e.target && e.target.files?.[0]) {
       const file = e.target.files[0];
 
-      if ((file.size / (1024 * 1024)) >= 2) {
+      if (file.size / (1024 * 1024) >= 2) {
         setFileUrl(window.URL.createObjectURL(file));
         setIsExceedLimit(true);
         return;
@@ -63,7 +63,6 @@ const ProfileCoverModal = (props: Props) => {
       });
 
       const data = await response.json();
-
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +83,6 @@ const ProfileCoverModal = (props: Props) => {
     } catch (error) {
       console.log(error);
     }
-
   };
 
   return (
@@ -121,14 +119,12 @@ const ProfileCoverModal = (props: Props) => {
                   )}
                   <Image
                     placeholder='blur'
-                    blurDataURL={(fileUrl)}
+                    blurDataURL={fileUrl}
                     fill
                     objectFit='cover'
                     alt='profile cover preview'
                     src={fileUrl}
-                    className={cn(
-                      { 'opacity-30': isExceedLimit }
-                    )}
+                    className={cn({ 'opacity-30': isExceedLimit })}
                   />
                 </>
               ) : (
@@ -145,7 +141,7 @@ const ProfileCoverModal = (props: Props) => {
                   {...field}
                   className='hidden'
                   ref={imgInputRef}
-                  type="file"
+                  type='file'
                   accept='image/*'
                   onChange={handleUploadCover}
                 />
@@ -154,7 +150,10 @@ const ProfileCoverModal = (props: Props) => {
           />
         </div>
       </ModalBody>
-      <ModalApplyButtons handleSubmitFile={handleSubmitFile} handleDeleteFile={handleDeleteFile} />
+      <ModalApplyButtons
+        handleSubmitFile={handleSubmitFile}
+        handleDeleteFile={handleDeleteFile}
+      />
     </FormProvider>
   );
 };

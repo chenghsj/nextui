@@ -1,13 +1,12 @@
 import {
   PutObjectCommand,
   PutObjectCommandInput,
-  GetObjectCommand,
   DeleteObjectCommand,
   S3Client,
   DeleteObjectCommandInput,
 } from '@aws-sdk/client-s3';
 import { NextRequest, NextResponse } from 'next/server';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 
 const s3 = new S3Client({

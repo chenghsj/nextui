@@ -1,4 +1,4 @@
-import { prettyDOM, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useSession } from 'next-auth/react';
 import { Navbar } from '../navbar';
 
@@ -20,12 +20,12 @@ describe('Navbar', () => {
           email: 'joe_image@example.com',
           emailVerified: new Date(),
           role: 'user',
-          createdAt: new Date()
+          createdAt: new Date(),
         },
-        expires: (new Date(Date.now() + 3600000)).toString(),
+        expires: new Date(Date.now() + 3600000).toString(),
       },
       update: jest.fn(),
-      status: 'authenticated'
+      status: 'authenticated',
     });
 
     render(<Navbar />);
@@ -41,13 +41,15 @@ describe('Navbar', () => {
     mockUseSession.mockReturnValue({
       data: null,
       update: jest.fn(),
-      status: 'unauthenticated'
+      status: 'unauthenticated',
     });
 
     render(<Navbar />);
 
     const navbar = screen.getByRole('navigation');
-    const getStartButton = screen.getAllByRole('button', { name: /get started/i });
+    const getStartButton = screen.getAllByRole('button', {
+      name: /get started/i,
+    });
 
     expect(navbar).toHaveTextContent('Home');
     expect(getStartButton[0]).toBeTruthy;

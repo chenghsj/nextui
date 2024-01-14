@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useEffect } from 'react';
-import _ from 'lodash';
 import * as dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import { Avatar, Image } from '@nextui-org/react';
@@ -32,15 +31,15 @@ type CandidateProps = {
 
 type ProfilePressEventType =
   | {
-    type: 'Add';
-  }
+      type: 'Add';
+    }
   | {
-    type: 'Edit';
-    id: number | string;
-  };
+      type: 'Edit';
+      id: number | string;
+    };
 
 type ProfilePressEvent = <Type extends ProfilePressEventType['type']>(
-  ...args: Extract<ProfilePressEventType, { type: Type; }> extends {
+  ...args: Extract<ProfilePressEventType, { type: Type }> extends {
     id: infer ID;
   }
     ? [type: Type, id: ID]
@@ -61,7 +60,13 @@ const experience_avatar_style = cn(
 
 export const Candidate: FC<CandidateProps> = ({ candidate }) => {
   const { onOpen } = useModalDisclosureContext();
-  const { setCandidate, setModalMode, setModalType, setWorkExperience, setEducation } = useCandidateModalStore();
+  const {
+    setCandidate,
+    setModalMode,
+    setModalType,
+    setWorkExperience,
+    setEducation,
+  } = useCandidateModalStore();
 
   useEffect(() => {
     setCandidate(candidate);
@@ -69,34 +74,38 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
 
   const handleOnPress: ProfilePressEvent =
     (...args) =>
-      (e: PressEvent) => {
-        const modalType = (e.target as HTMLButtonElement)
-          .value as `${ModalTypeEnum}`;
+    (e: PressEvent) => {
+      const modalType = (e.target as HTMLButtonElement)
+        .value as `${ModalTypeEnum}`;
 
-        if (args[0] === 'Edit') {
-          if (
-            modalType === 'work-experience' && candidate.profile?.workExperiences) {
-            setWorkExperience(
-              candidate.profile?.workExperiences.filter(
-                (singleWork) => singleWork.id === args[1]
-              )[0]
-            );
-          } else if (modalType === 'education' && candidate.profile?.educations) {
-            setEducation(candidate.profile?.educations.filter(
-              singleEdu => singleEdu.id === args[1])[0]
-            );
-          }
-        } else {
-          if (modalType === 'work-experience') {
-            setWorkExperience({} as WorkExperience);
-          } else if (modalType === 'education') {
-            setEducation({} as Education);
-          }
+      if (args[0] === 'Edit') {
+        if (
+          modalType === 'work-experience' &&
+          candidate.profile?.workExperiences
+        ) {
+          setWorkExperience(
+            candidate.profile?.workExperiences.filter(
+              (singleWork) => singleWork.id === args[1]
+            )[0]
+          );
+        } else if (modalType === 'education' && candidate.profile?.educations) {
+          setEducation(
+            candidate.profile?.educations.filter(
+              (singleEdu) => singleEdu.id === args[1]
+            )[0]
+          );
         }
-        setModalMode(args[0]);
-        setModalType(modalType);
-        onOpen();
-      };
+      } else {
+        if (modalType === 'work-experience') {
+          setWorkExperience({} as WorkExperience);
+        } else if (modalType === 'education') {
+          setEducation({} as Education);
+        }
+      }
+      setModalMode(args[0]);
+      setModalType(modalType);
+      onOpen();
+    };
 
   return (
     <div aria-label='candidate page'>
@@ -112,16 +121,16 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
         {candidate.profile?.coverURL ? (
           <Image
             radius='none'
-            src={candidate.profile?.coverURL || ""}
+            src={candidate.profile?.coverURL || ''}
             alt='profile background cover'
             classNames={{
               wrapper: 'w-full h-40 md:h-52 lg:h-64 xl:h-[360px] !max-w-full',
               img: 'w-full h-full object-cover',
             }}
           />
-        ) :
-          <div className='w-full h-40 md:h-52 lg:h-64 xl:h-[360px] !max-w-full bg-slate-400' />
-        }
+        ) : (
+          <div className='h-40 w-full !max-w-full bg-slate-400 md:h-52 lg:h-64 xl:h-[360px]' />
+        )}
         <div
           className={cn(
             'flex flex-col gap-2 md:gap-5',
@@ -146,7 +155,9 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
           <div className='text-3xl font-bold md:text-4xl'>
             {candidate.profile?.fullName || candidate.name}
           </div>
-          <div className='font-bold italic whitespace-pre-wrap'>{candidate.profile?.bio}</div>
+          <div className='whitespace-pre-wrap font-bold italic'>
+            {candidate.profile?.bio}
+          </div>
           <div className='flex flex-wrap gap-3'>
             {candidate.profile?.tags?.map((singleTag, index) => (
               <TagButton key={index} value={singleTag}>
@@ -224,7 +235,10 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
           ))}
         </div>
       </section> */}
-      <section aria-label='work experience' className='relative flex flex-col pb-10'>
+      <section
+        aria-label='work experience'
+        className='relative flex flex-col pb-10'
+      >
         <div className={cn(section_padding, 'flex flex-col gap-10')}>
           <div className={cn(section_title)}>
             Work Experience
@@ -243,23 +257,32 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                   src={singleWork.companyImg || ''}
                   classNames={{
                     base: cn(experience_avatar_style),
-                    name: 'text-2xl md:text-6xl font-bold'
+                    name: 'text-2xl md:text-6xl font-bold',
                   }}
                 />
                 <div className='flex flex-col gap-2'>
-                  <div className='text-2xl md:text-4xl font-bold italic'>
+                  <div className='text-2xl font-bold italic md:text-4xl'>
                     {singleWork.company}
                   </div>
                   <div className='text-base font-bold italic'>
                     {singleWork.position} | {singleWork.workType}
                     <br />
-                    {singleWork.startDate.toString().substring(0, 10).replaceAll('-', '/')} -{' '}
+                    {singleWork.startDate
+                      .toString()
+                      .substring(0, 10)
+                      .replaceAll('-', '/')}{' '}
+                    -{' '}
                     {singleWork.currentJob
                       ? 'Now'
-                      : singleWork.endDate?.toString().substring(0, 10).replaceAll('-', '/')}
+                      : singleWork.endDate
+                          ?.toString()
+                          .substring(0, 10)
+                          .replaceAll('-', '/')}
                   </div>
                   <div className='hidden md:block'></div>
-                  <div className='whitespace-pre-wrap break-all'>{singleWork.desc}</div>
+                  <div className='whitespace-pre-wrap break-all'>
+                    {singleWork.desc}
+                  </div>
                 </div>
               </div>
               <div className='flex flex-wrap gap-3'>
