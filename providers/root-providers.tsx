@@ -6,6 +6,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ThemeProviderProps } from 'next-themes/dist/types';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { TanstackQueryProvider } from './tanstack-query-provider';
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -15,10 +16,12 @@ export interface ProvidersProps {
 
 export function Providers({ children, themeProps, session }: ProvidersProps) {
   return (
-    <SessionProvider session={session}>
-      <NextUIProvider>
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </NextUIProvider>
-    </SessionProvider>
+    <TanstackQueryProvider>
+      <SessionProvider session={session}>
+        <NextUIProvider>
+          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+        </NextUIProvider>
+      </SessionProvider>
+    </TanstackQueryProvider>
   );
 }

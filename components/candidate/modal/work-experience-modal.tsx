@@ -3,10 +3,7 @@
 import React from 'react';
 import {
   ModalBody,
-  Textarea,
-  Input,
   Checkbox,
-  Select,
   SelectItem,
 } from '@nextui-org/react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
@@ -16,10 +13,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
-import { input_style } from './profile-modal';
+import { InputField, input_field_style } from '@/components/form/input-field';
 import { WorkExperience } from '@prisma/client';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 import ErrorMessage from '@/components/error-message';
+import { SelectField, select_field_style } from '@/components/form/select-field';
+import { TextareaField, textarea_field_style } from '@/components/form/textarea-field';
+import { checkbox_field_style } from '@/components/form/checkbox-field';
 
 const workDateSchema = z
   .object({
@@ -89,19 +89,15 @@ const WorkExperienceModal = (props: Props) => {
         )}
       >
         <div className='mt-10 flex flex-col gap-5'>
-          <Input
-            variant='bordered'
-            radius='sm'
+          <InputField
             label='Company'
-            placeholder=' '
-            labelPlacement='outside'
             value={watch('company')}
             {...register('company')}
             errorMessage={
               <ErrorMessage>{errors.company?.message}</ErrorMessage>
             }
             classNames={{
-              ...input_style,
+              ...input_field_style,
               base: 'mb-8 md:mb-auto',
             }}
           />
@@ -111,62 +107,36 @@ const WorkExperienceModal = (props: Props) => {
               'mb-14 grid-cols-1 gap-y-14 md:mb-auto'
             )}
           >
-            <Input
-              variant='bordered'
-              radius='sm'
+            <InputField
               label='Professional Title'
-              placeholder=' '
-              labelPlacement='outside'
               value={watch('position')}
               {...register('position')}
               errorMessage={
                 <ErrorMessage>{errors.position?.message}</ErrorMessage>
               }
-              classNames={{
-                ...input_style,
-              }}
+              classNames={input_field_style}
             />
-            <Select
-              variant='bordered'
-              radius='sm'
+            <SelectField
               label='Work Type'
-              placeholder=' '
-              labelPlacement='outside'
               defaultSelectedKeys={[watch('workType') || 'Full-time']}
               {...register('workType')}
               errorMessage={
                 <ErrorMessage>{errors.workType?.message}</ErrorMessage>
               }
-              classNames={{
-                label: input_style.label,
-                base: '-top-2',
-                mainWrapper: cn(
-                  input_style.inputWrapper,
-                  'h-10 md:h-[51px] min-h-0'
-                ),
-                trigger: 'border-none min-h-0',
-                value: input_style.input,
-                helperWrapper: 'hidden',
-              }}
+              classNames={select_field_style}
             >
               {Object.entries(WorkTypeEnum).map(([key, value]) => (
                 <SelectItem key={value} value={value}>
                   {value}
                 </SelectItem>
               ))}
-            </Select>
+            </SelectField>
           </div>
           <div>
-            <Textarea
+            <TextareaField
               label='Explanation'
-              labelPlacement='outside'
               value={watch('desc') || ''}
-              classNames={{
-                label: cn(input_style.label, 'pb-2'),
-                inputWrapper: cn(input_style.inputWrapper, '!h-[160px]'),
-                input: cn(input_style.input, 'max-h-[135px]'),
-                helperWrapper: 'block',
-              }}
+              classNames={textarea_field_style}
               {...register('desc')}
               errorMessage={<ErrorMessage>{errors.desc?.message}</ErrorMessage>}
             />
@@ -187,16 +157,7 @@ const WorkExperienceModal = (props: Props) => {
                     defaultSelected={value}
                     disableAnimation
                     className='rounded-xl'
-                    classNames={{
-                      base: '',
-                      icon: 'text-black dark:text-white w-5 h-5',
-                      wrapper: cn(
-                        'border-gray_b border-4 w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl',
-                        'dark:border-white dark:border-2',
-                        '[&:before]:border-none [&:after]:bg-record [&:after]:rounded-none'
-                      ),
-                      label: cn(input_style.label, 'group'),
-                    }}
+                    classNames={checkbox_field_style}
                   >
                     Current Position
                   </Checkbox>
@@ -205,30 +166,19 @@ const WorkExperienceModal = (props: Props) => {
             />
           </div>
           <div className='grid h-20 grid-cols-2 items-end gap-5 md:h-24'>
-            <Input
-              variant='bordered'
-              radius='sm'
+            <InputField
               label='Start Date'
-              placeholder=' '
               type='date'
-              labelPlacement='outside'
               value={watch('startDate')?.toString().substring(0, 10)}
               {...register('startDate')}
               errorMessage={
                 <ErrorMessage>{errors.startDate?.message}</ErrorMessage>
               }
-              classNames={{
-                ...input_style,
-                helperWrapper: 'block',
-              }}
+              classNames={input_field_style}
             />
-            <Input
-              variant='bordered'
-              radius='sm'
+            <InputField
               label='End Date'
-              placeholder=' '
               type='date'
-              labelPlacement='outside'
               isDisabled={watch('currentJob')}
               value={watch('endDate')?.toString().substring(0, 10)}
               min={watch('startDate')?.toString().substring(0, 10)}
@@ -236,7 +186,7 @@ const WorkExperienceModal = (props: Props) => {
               errorMessage={
                 <ErrorMessage>{errors.endDate?.message}</ErrorMessage>
               }
-              classNames={input_style}
+              classNames={input_field_style}
             />
           </div>
           <TagsInput />

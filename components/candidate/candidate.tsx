@@ -31,15 +31,15 @@ type CandidateProps = {
 
 type ProfilePressEventType =
   | {
-      type: 'Add';
-    }
+    type: 'Add';
+  }
   | {
-      type: 'Edit';
-      id: number | string;
-    };
+    type: 'Edit';
+    id: number | string;
+  };
 
 type ProfilePressEvent = <Type extends ProfilePressEventType['type']>(
-  ...args: Extract<ProfilePressEventType, { type: Type }> extends {
+  ...args: Extract<ProfilePressEventType, { type: Type; }> extends {
     id: infer ID;
   }
     ? [type: Type, id: ID]
@@ -55,6 +55,11 @@ const experience_avatar_style = cn(
   'border-gray_b dark:border-white',
   'min-w-unit-16 min-h-unit-16 md:min-w-[120px] md:min-h-[120px]'
 );
+
+const formatDate = (date: Date) =>
+  date.toString()
+    .substring(0, 10)
+    .replaceAll('-', '/');
 
 // TODO: form modal validation using valibot resolver?
 
@@ -74,38 +79,38 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
 
   const handleOnPress: ProfilePressEvent =
     (...args) =>
-    (e: PressEvent) => {
-      const modalType = (e.target as HTMLButtonElement)
-        .value as `${ModalTypeEnum}`;
+      (e: PressEvent) => {
+        const modalType = (e.target as HTMLButtonElement)
+          .value as `${ModalTypeEnum}`;
 
-      if (args[0] === 'Edit') {
-        if (
-          modalType === 'work-experience' &&
-          candidate.profile?.workExperiences
-        ) {
-          setWorkExperience(
-            candidate.profile?.workExperiences.filter(
-              (singleWork) => singleWork.id === args[1]
-            )[0]
-          );
-        } else if (modalType === 'education' && candidate.profile?.educations) {
-          setEducation(
-            candidate.profile?.educations.filter(
-              (singleEdu) => singleEdu.id === args[1]
-            )[0]
-          );
+        if (args[0] === 'Edit') {
+          if (
+            modalType === 'work-experience' &&
+            candidate.profile?.workExperiences
+          ) {
+            setWorkExperience(
+              candidate.profile?.workExperiences.filter(
+                (singleWork) => singleWork.id === args[1]
+              )[0]
+            );
+          } else if (modalType === 'education' && candidate.profile?.educations) {
+            setEducation(
+              candidate.profile?.educations.filter(
+                (singleEdu) => singleEdu.id === args[1]
+              )[0]
+            );
+          }
+        } else {
+          if (modalType === 'work-experience') {
+            setWorkExperience({} as WorkExperience);
+          } else if (modalType === 'education') {
+            setEducation({} as Education);
+          }
         }
-      } else {
-        if (modalType === 'work-experience') {
-          setWorkExperience({} as WorkExperience);
-        } else if (modalType === 'education') {
-          setEducation({} as Education);
-        }
-      }
-      setModalMode(args[0]);
-      setModalType(modalType);
-      onOpen();
-    };
+        setModalMode(args[0]);
+        setModalType(modalType);
+        onOpen();
+      };
 
   return (
     <div aria-label='candidate page'>
@@ -267,17 +272,11 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                   <div className='text-base font-bold italic'>
                     {singleWork.position} | {singleWork.workType}
                     <br />
-                    {singleWork.startDate
-                      .toString()
-                      .substring(0, 10)
-                      .replaceAll('-', '/')}{' '}
+                    {formatDate(singleWork.startDate)}{' '}
                     -{' '}
                     {singleWork.currentJob
                       ? 'Now'
-                      : singleWork.endDate
-                          ?.toString()
-                          .substring(0, 10)
-                          .replaceAll('-', '/')}
+                      : formatDate(singleWork.endDate!)}
                   </div>
                   <div className='hidden md:block'></div>
                   <div className='whitespace-pre-wrap break-all'>

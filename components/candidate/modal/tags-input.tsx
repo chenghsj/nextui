@@ -8,16 +8,17 @@ import { PressEvent, KeyboardEvent } from '@react-types/shared';
 import cn from '@/utils/cn';
 import { ArrowRight, Close } from '@/components/icons';
 import { TagButton } from '@/components/custom-button';
-import { tag_input_style } from './profile-modal';
+import { InputField, tag_input_field_style } from '@/components/form/input-field';
 
 type Props = {};
 
-type TagsInputType = { name: string; tag: string; tags: string[] };
+type TagsInputType = { name: string; tag: string; tags: string[]; };
 
 const maxTagListLength = 6;
 
-const TagsInput = ({}: Props) => {
+const TagsInput = ({ }: Props) => {
   const tagListRef = useRef<null | HTMLDivElement>(null);
+  const removeFocusRef = useRef<null | HTMLInputElement>(null);
 
   const {
     setValue,
@@ -53,24 +54,29 @@ const TagsInput = ({}: Props) => {
     }
   };
 
-  const handleRemoveTag = (removedTag: string) => (e: any) => {
+  const handleRemoveTag = (removedTag: string) => (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     setValue(
       'tags',
       tagList.filter((singleTag) => singleTag !== removedTag),
       { shouldDirty: true }
     );
-    setFocus('tag');
+    console.log(tagList.length);
+    if (tagList.length === 1) {
+      setFocus('tag');
+    } else {
+      removeFocusRef.current?.focus();
+    };
   };
 
   return (
     <div className='flex flex-col gap-2 md:gap-5'>
       <div className='mt-6 flex h-16 w-full items-center md:mt-12'>
-        <Input
-          classNames={tag_input_style}
+        <InputField
           label='Your Skill Hashtag'
           labelPlacement='outside'
           placeholder=' '
           value={tag}
+          classNames={tag_input_field_style}
           onKeyDown={handleKeyDown}
           {...register('tag')}
           errorMessage={errors.tag?.message}
@@ -108,6 +114,7 @@ const TagsInput = ({}: Props) => {
           </TagButton>
         ))}
       </div>
+      <input className='w-0 h-0' ref={removeFocusRef} />
     </div>
   );
 };

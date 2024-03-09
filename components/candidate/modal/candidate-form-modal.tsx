@@ -1,6 +1,7 @@
 'use client';
 
 import React, { ReactElement } from 'react';
+import _ from 'lodash';
 import { Modal, ModalContent, ModalHeader } from '@nextui-org/react';
 
 import Loading from '@/app/loading';
@@ -14,43 +15,38 @@ import { ModalTypeEnum } from '../candidate';
 
 type Props = {};
 
-export const getRenderedModal = (modalType: `${ModalTypeEnum}`) => {
+const getRenderedModal = (modalType: `${ModalTypeEnum}`) => {
   let modal: ReactElement;
-  let title = '';
+
   switch (modalType) {
     case 'profile-cover':
-      title = 'Cover';
       modal = <ProfileCoverModal />;
       break;
     case 'video-resume':
-      title = 'Video Resume';
       modal = <></>;
       break;
     case 'profile':
-      title = 'Profile';
       modal = <ProfileModal />;
       break;
     case 'work-experience':
-      title = 'Work Experience';
       modal = <WorkExperienceModal />;
       break;
     case 'education':
-      title = 'Education';
-      modal = <WorkExperienceModal />;
+      modal = <></>;
       break;
     default:
       modal = <></>;
       break;
   }
-  return { modal, title };
+  return { modal };
 };
 
-function CandidateFormModal({}: Props) {
+function CandidateFormModal({ }: Props) {
   const { isOpen, onOpenChange } = useModalDisclosureContext();
   const { isSubmitting } = useFormIsSubmittingStore();
   const { modalType, modalMode } = useCandidateModalStore();
 
-  const { modal, title } = getRenderedModal(modalType);
+  const { modal } = getRenderedModal(modalType);
 
   return (
     <Modal
@@ -69,7 +65,7 @@ function CandidateFormModal({}: Props) {
           </div>
         )}
         <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
-          {modalMode} {title}
+          {modalMode} {modalType?.split('-').map(word => _.upperFirst(word)).join(' ')}
         </ModalHeader>
         <form className='h-[90%] sm:h-[85%]'>{modal}</form>
       </ModalContent>

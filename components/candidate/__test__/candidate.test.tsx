@@ -4,9 +4,11 @@ import { UserWithProfile } from '@/lib/types';
 
 import { useModalDisclosureContext } from '@/providers/modal-disclosure-provider';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
+import { useFormIsSubmittingStore } from '@/hooks/form/use-form-is-submitting-store';
+
 import { Candidate } from '../candidate';
 
-const mockedCandidateData: UserWithProfile = {
+export const mockedCandidateData: UserWithProfile = {
   id: '1',
   name: 'John Doe',
   image: 'https://example.com/image.jpg',
@@ -85,6 +87,9 @@ const mockUseModalDisclosureContext =
     typeof useModalDisclosureContext
   >;
 
+jest.mock('@/hooks/form/use-form-is-submitting-store');
+const mockUseFormIsSubmittingStore = useFormIsSubmittingStore as jest.MockedFunction<typeof useFormIsSubmittingStore>;
+
 // Error: Uncaught [Error: invariant expected app router to be mounted]
 jest.mock('next/navigation', () => ({
   useRouter() {
@@ -94,7 +99,7 @@ jest.mock('next/navigation', () => ({
   },
 }));
 
-beforeEach(() => {
+export const candidateTestBeforeEach = () => {
   mockUseModalDisclosureContext.mockReturnValue(mockUseDisclosureReturnValue);
   mockUseCandidateModalStore.mockReturnValue({
     setCandidate: jest.fn(),
@@ -103,14 +108,18 @@ beforeEach(() => {
     setWorkExperience: jest.fn(),
     setEducation: jest.fn(),
   });
-
+  mockUseFormIsSubmittingStore.mockReturnValue({
+    isSubmitting: false
+  });
   render(<Candidate candidate={mockedCandidateData} />);
-});
-
-afterEach(() => jest.resetAllMocks());
+};
 
 describe('Candidate content', () => {
-  it('should render cover section', () => {});
+  beforeEach(candidateTestBeforeEach);
+
+  afterAll(() => jest.restoreAllMocks());
+
+  it('should render cover section', () => { });
 
   it('should render work experience section', async () => {
     const workExperienceSection = screen.getByRole('region', {
@@ -142,6 +151,8 @@ describe('Candidate content', () => {
 describe('Candidate show modal', () => {
   const user = userEvent.setup();
 
+  beforeEach(candidateTestBeforeEach);
+
   afterEach(() => {
     const { onOpen } = mockUseModalDisclosureContext();
     const { setModalType, setModalMode } = mockUseCandidateModalStore();
@@ -149,6 +160,8 @@ describe('Candidate show modal', () => {
     expect(onOpen).toHaveBeenCalledTimes(1);
     expect(setModalType).toHaveBeenCalledTimes(1);
     expect(setModalMode).toHaveBeenCalledTimes(1);
+
+    jest.resetAllMocks();
   });
 
   it('should show edit cover modal', async () => {

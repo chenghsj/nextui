@@ -1,27 +1,29 @@
 import prisma from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 // handle { digest: 'DYNAMIC_SERVER_USAGE' } error
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: Request, res: Response) {
-  const session = await getServerSession();
+export async function GET(req: NextResponse, res: NextResponse) {
+  // const session = await getServerSession(authOptions);
+  const params = new URL(req.url).searchParams;
+  const email = params.get('email');
+  const name = params.get('name');
+
   try {
-    console.log(session);
     const user = await prisma.user.upsert({
       where: {
-        id: session?.user.id,
-        email: session?.user.email!,
+        // id: session!.user.id,
+        email: email!,
       },
       create: {},
       update: {
         profile: {
           upsert: {
             create: {
-              fullName: session?.user?.name,
-              firstName: session?.user!.name?.split(' ')[0],
-              lastName: session?.user!.name?.split(' ').splice(1).join(' '),
+              fullName: name,
+              firstName: name?.split(' ')[0],
+              lastName: name?.split(' ').splice(1).join(' '),
             },
             update: {},
           },

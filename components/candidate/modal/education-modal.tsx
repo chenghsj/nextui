@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
-import { ModalBody, Textarea, Input, Checkbox } from '@nextui-org/react';
+import { ModalBody, Input, Checkbox } from '@nextui-org/react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 
 import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
-import { input_style } from './profile-modal';
 import { WorkExperience } from '@prisma/client';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
+import { TextareaField, textarea_field_style } from '@/components/form/textarea-field';
+import { input_field_style } from '@/components/form/input-field';
+import { checkbox_field_style } from '@/components/form/checkbox-field';
 
 type WorkExpTypeModalFields = WorkExperience & {
   tag: string;
@@ -53,7 +55,7 @@ const EducationModal = (props: Props) => {
             // isInvalid={!!errors.position?.message}
             errorMessage={errors.position?.message}
             classNames={{
-              ...input_style,
+              ...input_field_style,
               helperWrapper: 'block',
               errorMessage: 'text-base',
             }}
@@ -75,7 +77,7 @@ const EducationModal = (props: Props) => {
               // isInvalid={!!errors.position?.message}
               errorMessage={errors.position?.message}
               classNames={{
-                ...input_style,
+                ...input_field_style,
                 helperWrapper: 'block',
                 errorMessage: 'text-base',
               }}
@@ -89,19 +91,14 @@ const EducationModal = (props: Props) => {
               value={watch('workType') || ''}
               {...register('workType')}
               errorMessage={errors.workType?.message}
-              classNames={input_style}
+              classNames={input_field_style}
             />
           </div>
           <div>
-            <Textarea
+            <TextareaField
               label='Explanation'
-              labelPlacement='outside'
               value={watch('desc') || ''}
-              classNames={{
-                label: cn(input_style.label, 'pb-2'),
-                inputWrapper: cn(input_style.inputWrapper, '!h-[160px]'),
-                input: cn(input_style.input, 'max-h-[135px]'),
-              }}
+              classNames={textarea_field_style}
               {...register('desc')}
             />
           </div>
@@ -115,16 +112,7 @@ const EducationModal = (props: Props) => {
                   defaultSelected={value}
                   disableAnimation
                   className='rounded-xl'
-                  classNames={{
-                    base: '',
-                    icon: 'text-black dark:text-white w-5 h-5',
-                    wrapper: cn(
-                      'border-gray_b border-4 w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl',
-                      'dark:border-white dark:border-2',
-                      '[&:before]:border-none [&:after]:bg-record [&:after]:rounded-none'
-                    ),
-                    label: cn(input_style.label, 'group'),
-                  }}
+                  classNames={checkbox_field_style}
                 >
                   Current Position
                 </Checkbox>
@@ -146,7 +134,7 @@ const EducationModal = (props: Props) => {
               // isInvalid={!!errors.position?.message}
               errorMessage={errors.position?.message}
               classNames={{
-                ...input_style,
+                ...input_field_style,
                 helperWrapper: 'block',
                 errorMessage: 'text-base',
               }}
@@ -162,7 +150,7 @@ const EducationModal = (props: Props) => {
               value={watch('endDate')?.toString().substring(0, 10)}
               {...register('endDate')}
               errorMessage={errors.endDate?.message}
-              classNames={input_style}
+              classNames={input_field_style}
             />
           </div>
           <TagsInput />

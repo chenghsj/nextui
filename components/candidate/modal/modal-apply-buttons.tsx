@@ -60,11 +60,6 @@ const ModalApplyButtons: FC<ModalApplyButtonsProps> = ({
         };
       }
       console.log(values);
-      const formData = new FormData();
-
-      for (var key in values) {
-        formData.append(key, JSON.stringify(values[key]));
-      }
 
       await fetch(getURL(`/api/candidate/${modalType}`), {
         method: modalMode === 'Edit' ? 'PUT' : 'POST',

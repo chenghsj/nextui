@@ -50,7 +50,7 @@ const ProfileCoverModal = (props: Props) => {
   };
 
   const handleSubmitFile = async () => {
-    if (!file) return;
+    if (!fileUrl) return;
 
     const formData = new FormData();
     formData.append('userId', candidate.id);
@@ -69,6 +69,7 @@ const ProfileCoverModal = (props: Props) => {
   };
 
   const handleDeleteFile = async () => {
+    if (!fileUrl) return;
     const formData = new FormData();
     formData.append('userId', candidate.id);
 

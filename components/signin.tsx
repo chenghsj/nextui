@@ -21,7 +21,7 @@ const LoginFormSchema = v.object({
   email: v.optional(v.string([v.email('Please follow the email format.')])),
 });
 
-export function Signin({}: Props) {
+export function Signin({ }: Props) {
   const { data: session } = useSession();
   const {
     register,
@@ -34,6 +34,7 @@ export function Signin({}: Props) {
     },
     resolver: valibotResolver(LoginFormSchema),
   });
+
   const onSubmit: SubmitHandler<FormInputType> = (data) =>
     alert(JSON.stringify(data, null, 2));
 
