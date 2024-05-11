@@ -9,7 +9,10 @@ import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
 import { WorkExperience } from '@prisma/client';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
-import { TextareaField, textarea_field_style } from '@/components/form/textarea-field';
+import {
+  TextareaField,
+  textarea_field_style,
+} from '@/components/form/textarea-field';
 import { input_field_style } from '@/components/form/input-field';
 import { checkbox_field_style } from '@/components/form/checkbox-field';
 

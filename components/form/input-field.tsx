@@ -1,5 +1,10 @@
-import cn from "@/utils/cn";
-import { Input, InputSlots, SlotsToClasses, extendVariants } from "@nextui-org/react";
+import cn from '@/utils/cn';
+import {
+  Input,
+  InputSlots,
+  SlotsToClasses,
+  extendVariants,
+} from '@nextui-org/react';
 
 export const input_field_style: SlotsToClasses<InputSlots> = {
   label:
@@ -36,5 +41,5 @@ export const InputField = extendVariants(Input, {
     radius: 'sm',
     placeholder: ' ',
     labelPlacement: 'outside',
-  }
+  },
 });

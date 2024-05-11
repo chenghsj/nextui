@@ -1,18 +1,18 @@
 'use client';
 
 import React, { FC } from 'react';
-import {
-  ModalBody,
-} from '@nextui-org/react';
+import { ModalBody } from '@nextui-org/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { UserProfile } from '@prisma/client';
 
-import cn from '@/utils/cn';
 import ModalApplyButtons from './modal-apply-buttons';
 import TagsInput from './tags-input';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 import { InputField, input_field_style } from '@/components/form/input-field';
-import { TextareaField, textarea_field_style } from '@/components/form/textarea-field';
+import {
+  TextareaField,
+  textarea_field_style,
+} from '@/components/form/textarea-field';
 
 type Props = {};
 

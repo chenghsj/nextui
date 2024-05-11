@@ -31,15 +31,15 @@ type CandidateProps = {
 
 type ProfilePressEventType =
   | {
-    type: 'Add';
-  }
+      type: 'Add';
+    }
   | {
-    type: 'Edit';
-    id: number | string;
-  };
+      type: 'Edit';
+      id: number | string;
+    };
 
 type ProfilePressEvent = <Type extends ProfilePressEventType['type']>(
-  ...args: Extract<ProfilePressEventType, { type: Type; }> extends {
+  ...args: Extract<ProfilePressEventType, { type: Type }> extends {
     id: infer ID;
   }
     ? [type: Type, id: ID]
@@ -57,9 +57,7 @@ const experience_avatar_style = cn(
 );
 
 const formatDate = (date: Date) =>
-  date.toString()
-    .substring(0, 10)
-    .replaceAll('-', '/');
+  date.toString().substring(0, 10).replaceAll('-', '/');
 
 // TODO: form modal validation using valibot resolver?
 
@@ -79,38 +77,38 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
 
   const handleOnPress: ProfilePressEvent =
     (...args) =>
-      (e: PressEvent) => {
-        const modalType = (e.target as HTMLButtonElement)
-          .value as `${ModalTypeEnum}`;
+    (e: PressEvent) => {
+      const modalType = (e.target as HTMLButtonElement)
+        .value as `${ModalTypeEnum}`;
 
-        if (args[0] === 'Edit') {
-          if (
-            modalType === 'work-experience' &&
-            candidate.profile?.workExperiences
-          ) {
-            setWorkExperience(
-              candidate.profile?.workExperiences.filter(
-                (singleWork) => singleWork.id === args[1]
-              )[0]
-            );
-          } else if (modalType === 'education' && candidate.profile?.educations) {
-            setEducation(
-              candidate.profile?.educations.filter(
-                (singleEdu) => singleEdu.id === args[1]
-              )[0]
-            );
-          }
-        } else {
-          if (modalType === 'work-experience') {
-            setWorkExperience({} as WorkExperience);
-          } else if (modalType === 'education') {
-            setEducation({} as Education);
-          }
+      if (args[0] === 'Edit') {
+        if (
+          modalType === 'work-experience' &&
+          candidate.profile?.workExperiences
+        ) {
+          setWorkExperience(
+            candidate.profile?.workExperiences.filter(
+              (singleWork) => singleWork.id === args[1]
+            )[0]
+          );
+        } else if (modalType === 'education' && candidate.profile?.educations) {
+          setEducation(
+            candidate.profile?.educations.filter(
+              (singleEdu) => singleEdu.id === args[1]
+            )[0]
+          );
         }
-        setModalMode(args[0]);
-        setModalType(modalType);
-        onOpen();
-      };
+      } else {
+        if (modalType === 'work-experience') {
+          setWorkExperience({} as WorkExperience);
+        } else if (modalType === 'education') {
+          setEducation({} as Education);
+        }
+      }
+      setModalMode(args[0]);
+      setModalType(modalType);
+      onOpen();
+    };
 
   return (
     <div aria-label='candidate page'>
@@ -272,8 +270,7 @@ export const Candidate: FC<CandidateProps> = ({ candidate }) => {
                   <div className='text-base font-bold italic'>
                     {singleWork.position} | {singleWork.workType}
                     <br />
-                    {formatDate(singleWork.startDate)}{' '}
-                    -{' '}
+                    {formatDate(singleWork.startDate)} -{' '}
                     {singleWork.currentJob
                       ? 'Now'
                       : formatDate(singleWork.endDate!)}

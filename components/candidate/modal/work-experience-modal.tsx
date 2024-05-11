@@ -1,11 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  ModalBody,
-  Checkbox,
-  SelectItem,
-} from '@nextui-org/react';
+import { ModalBody, Checkbox, SelectItem } from '@nextui-org/react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,8 +13,14 @@ import { InputField, input_field_style } from '@/components/form/input-field';
 import { WorkExperience } from '@prisma/client';
 import { useCandidateModalStore } from '@/hooks/candidate/use-candidate-modal-store';
 import ErrorMessage from '@/components/error-message';
-import { SelectField, select_field_style } from '@/components/form/select-field';
-import { TextareaField, textarea_field_style } from '@/components/form/textarea-field';
+import {
+  SelectField,
+  select_field_style,
+} from '@/components/form/select-field';
+import {
+  TextareaField,
+  textarea_field_style,
+} from '@/components/form/textarea-field';
 import { checkbox_field_style } from '@/components/form/checkbox-field';
 
 const workDateSchema = z

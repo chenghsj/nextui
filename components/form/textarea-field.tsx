@@ -1,6 +1,6 @@
-import { Textarea, extendVariants } from "@nextui-org/react";
-import { input_field_style } from "./input-field";
-import cn from "@/utils/cn";
+import { Textarea, extendVariants } from '@nextui-org/react';
+import { input_field_style } from './input-field';
+import cn from '@/utils/cn';
 
 export const textarea_field_style = {
   label: cn(input_field_style.label, 'pb-2'),
@@ -11,6 +11,6 @@ export const textarea_field_style = {
 
 export const TextareaField = extendVariants(Textarea, {
   defaultVariants: {
-    labelPlacement: 'outside'
-  }
+    labelPlacement: 'outside',
+  },
 });

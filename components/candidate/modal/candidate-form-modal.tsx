@@ -41,7 +41,7 @@ const getRenderedModal = (modalType: `${ModalTypeEnum}`) => {
   return { modal };
 };
 
-function CandidateFormModal({ }: Props) {
+function CandidateFormModal({}: Props) {
   const { isOpen, onOpenChange } = useModalDisclosureContext();
   const { isSubmitting } = useFormIsSubmittingStore();
   const { modalType, modalMode } = useCandidateModalStore();
@@ -65,7 +65,11 @@ function CandidateFormModal({ }: Props) {
           </div>
         )}
         <ModalHeader className='h-[10%] p-5 text-2xl font-bold leading-10 sm:h-[15%] md:p-10 md:text-3xl'>
-          {modalMode} {modalType?.split('-').map(word => _.upperFirst(word)).join(' ')}
+          {modalMode}{' '}
+          {modalType
+            ?.split('-')
+            .map((word) => _.upperFirst(word))
+            .join(' ')}
         </ModalHeader>
         <form className='h-[90%] sm:h-[85%]'>{modal}</form>
       </ModalContent>

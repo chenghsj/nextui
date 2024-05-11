@@ -88,7 +88,10 @@ const mockUseModalDisclosureContext =
   >;
 
 jest.mock('@/hooks/form/use-form-is-submitting-store');
-const mockUseFormIsSubmittingStore = useFormIsSubmittingStore as jest.MockedFunction<typeof useFormIsSubmittingStore>;
+const mockUseFormIsSubmittingStore =
+  useFormIsSubmittingStore as jest.MockedFunction<
+    typeof useFormIsSubmittingStore
+  >;
 
 // Error: Uncaught [Error: invariant expected app router to be mounted]
 jest.mock('next/navigation', () => ({
@@ -109,7 +112,7 @@ export const candidateTestBeforeEach = () => {
     setEducation: jest.fn(),
   });
   mockUseFormIsSubmittingStore.mockReturnValue({
-    isSubmitting: false
+    isSubmitting: false,
   });
   render(<Candidate candidate={mockedCandidateData} />);
 };
@@ -119,7 +122,7 @@ describe('Candidate content', () => {
 
   afterAll(() => jest.restoreAllMocks());
 
-  it('should render cover section', () => { });
+  it('should render cover section', () => {});
 
   it('should render work experience section', async () => {
     const workExperienceSection = screen.getByRole('region', {

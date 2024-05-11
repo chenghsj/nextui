@@ -1,5 +1,5 @@
-import cn from "@/utils/cn";
-import { input_field_style } from "./input-field";
+import cn from '@/utils/cn';
+import { input_field_style } from './input-field';
 
 export const checkbox_field_style = {
   icon: 'text-black dark:text-white w-5 h-5',

@@ -2,21 +2,24 @@
 
 import React, { useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Button, Input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { PressEvent, KeyboardEvent } from '@react-types/shared';
 
 import cn from '@/utils/cn';
 import { ArrowRight, Close } from '@/components/icons';
 import { TagButton } from '@/components/custom-button';
-import { InputField, tag_input_field_style } from '@/components/form/input-field';
+import {
+  InputField,
+  tag_input_field_style,
+} from '@/components/form/input-field';
 
 type Props = {};
 
-type TagsInputType = { name: string; tag: string; tags: string[]; };
+type TagsInputType = { name: string; tag: string; tags: string[] };
 
 const maxTagListLength = 6;
 
-const TagsInput = ({ }: Props) => {
+const TagsInput = ({}: Props) => {
   const tagListRef = useRef<null | HTMLDivElement>(null);
   const removeFocusRef = useRef<null | HTMLInputElement>(null);
 
@@ -54,19 +57,21 @@ const TagsInput = ({ }: Props) => {
     }
   };
 
-  const handleRemoveTag = (removedTag: string) => (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    setValue(
-      'tags',
-      tagList.filter((singleTag) => singleTag !== removedTag),
-      { shouldDirty: true }
-    );
-    console.log(tagList.length);
-    if (tagList.length === 1) {
-      setFocus('tag');
-    } else {
-      removeFocusRef.current?.focus();
+  const handleRemoveTag =
+    (removedTag: string) =>
+    (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+      setValue(
+        'tags',
+        tagList.filter((singleTag) => singleTag !== removedTag),
+        { shouldDirty: true }
+      );
+      console.log(tagList.length);
+      if (tagList.length === 1) {
+        setFocus('tag');
+      } else {
+        removeFocusRef.current?.focus();
+      }
     };
-  };
 
   return (
     <div className='flex flex-col gap-2 md:gap-5'>
@@ -114,7 +119,7 @@ const TagsInput = ({ }: Props) => {
           </TagButton>
         ))}
       </div>
-      <input className='w-0 h-0' ref={removeFocusRef} />
+      <input className='h-0 w-0' ref={removeFocusRef} />
     </div>
   );
 };

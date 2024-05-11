@@ -14,7 +14,7 @@ export async function getCandidate<T>(query: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export default async function CandidatePage({ }: Props) {
+export default async function CandidatePage({}: Props) {
   const session = await getServerSession();
   if (!session) return;
 
